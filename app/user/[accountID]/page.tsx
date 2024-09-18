@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import styles from "./page.module.css";
 import Link from "next/link";
@@ -6,6 +7,7 @@ import Badge from "@mui/material/Badge";
 import Avatar, { AvatarOwnProps, AvatarSlotsAndSlotProps } from "@mui/material/Avatar"; // 必要に応じてインポート
 import { CommonProps } from "@mui/material/OverridableComponent";
 import { JSX, ElementType } from "react";
+import useUserProfile from "@/app/hooks/useUserProfile";
 
 // SmallAvatar の定義
 const SmallAvatar = (props: JSX.IntrinsicAttributes & { component: ElementType<any, keyof JSX.IntrinsicElements>; } & AvatarOwnProps & AvatarSlotsAndSlotProps & CommonProps & Omit<any, "children" | "className" | "style" | "classes" | "alt" | "imgProps" | "sizes" | "src" | "srcSet" | "sx" | "variant" | "slots" | "slotProps">) => (
@@ -15,7 +17,10 @@ const SmallAvatar = (props: JSX.IntrinsicAttributes & { component: ElementType<a
   />
 );
 
-export default function Home() {
+export default function Home({ params }: { params: { accountID: string } }) {
+  const accountID = params.accountID;
+  const { userProfile, todayUserProfileFetching } = useUserProfile(accountID);
+  console.log(userProfile, todayUserProfileFetching);
   return (
     <main className={styles.main}>
       <Header> <Link href={"/"}>←
