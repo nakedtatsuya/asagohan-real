@@ -1,16 +1,13 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
+import { Yusei_Magic } from "next/font/google";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "@/app/theme";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+export const yuseiMagic = Yusei_Magic({
+  weight: "400",
+  style: "normal",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -29,9 +26,9 @@ export default function RootLayout({
       <head>
         <meta property="og:image" content="/og-image.png" />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
-      </body>
+      <ThemeProvider theme={theme}>
+        <body className={yuseiMagic.className}>{children}</body>
+      </ThemeProvider>
     </html>
   );
 }
