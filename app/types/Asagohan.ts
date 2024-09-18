@@ -7,6 +7,7 @@ export default interface Asagohan {
   title: string;
   imagePath: string;
   likes: number;
+  isLiked: boolean;
   comments: Comment[];
   user: User;
 }
