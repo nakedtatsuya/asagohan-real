@@ -4,7 +4,7 @@ import { Yusei_Magic } from "next/font/google";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/app/theme";
 
-export const yuseiMagic = Yusei_Magic({
+const yuseiMagic = Yusei_Magic({
   weight: "400",
   style: "normal",
   subsets: ["latin"],
@@ -26,9 +26,9 @@ export default function RootLayout({
       <head>
         <meta property="og:image" content="/og-image.png" />
       </head>
-      <ThemeProvider theme={theme}>
-        <body className={yuseiMagic.className}>{children}</body>
-      </ThemeProvider>
+      <body className={yuseiMagic.className}>
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      </body>
     </html>
   );
 }
