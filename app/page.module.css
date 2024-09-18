@@ -17,6 +17,7 @@
  padding: 80px 10px;
  display: flex;
  flex-direction: column;
+ border-bottom: 3px solid #f4f4e4;
 }
 
 .acount{
@@ -45,12 +46,13 @@
 }
 
 .forth{
-  display: flex;
+  height: 50px;
 }
 
 .button{
   display: flex;
-  justify-content: flex-start;
+  position: absolute;
+  gap: 10px;
 }
 
 .good{
@@ -59,18 +61,44 @@
   align-items: center;
 }
 
+.goodcount{
+  font-size: 10px;
+}
+
 .comment{
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-
-.title{
-  font-size: 2em;
-  width: 30%;
-  margin: 0 auto;
+.commentcount{
+  font-size: 10px;
 }
 
+.title{
+  font-size: 1em;
+  width: fit-content;
+  margin: 0 auto;
+  padding-top: 10px;
+}
 
+.rankingstar{
+  position: absolute; /*親要素にrelative*/
+  top: 390px;
+  right: 30px;
+}
 
+.star{
+  width: 100%;
+}
+
+.rankingcount{
+  margin: 0;
+  font-size: 20px;
+  position: absolute; /*文字にabsolute*/
+
+   /*中央寄せの「おまじない」*/
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}

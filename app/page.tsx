@@ -68,8 +68,8 @@ export default function Home() {
               <Image className={styles.goodbutton}
                 src="いいねボタン.svg"
                 alt="いいねボタン画像"
-                width={80}
-                height={70}
+                width={25}
+                height={25}
               />
               <p className={styles.goodcount}>
                 xx
@@ -79,8 +79,8 @@ export default function Home() {
               <Image className={styles.commentbutton}
                 src="コメントボタン.svg"
                 alt="コメントボタン画像"
-                width={80}
-                height={70}
+                width={25}
+                height={25}
               />
               <p className={styles.commentcount}>
                 xx
@@ -91,6 +91,17 @@ export default function Home() {
               今日のタイトル
             </p>
           </div>
+          <div className={styles.rankingstar}>
+          <Image className={styles.star}
+                src="ランキング星画像.svg"
+                alt="ランキング星画像"
+                width={70}
+                height={70}
+              />
+            <p className={styles.rankingcount}>
+              1
+            </p>
+            </div>
       </main>
     </div>
   )
