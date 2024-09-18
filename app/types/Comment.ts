@@ -1,7 +1,6 @@
-import type { User } from "@supabase/supabase-js";
-
+import type User from "@/app/types/User";
 export default interface Comment {
-  text: string;
+  content: string;
   createdAt: string;
   user: User;
 }

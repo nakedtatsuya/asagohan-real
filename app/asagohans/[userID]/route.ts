@@ -7,6 +7,15 @@ interface AsagohanResponse {
   likes: {
     user_id: string;
   }[];
+  comments: {
+    created_at: string;
+    content: string;
+    user: {
+      id: string;
+      name: string;
+      account_id: string;
+    };
+  }[];
   user: {
     id: string;
     name: string;
@@ -34,6 +43,7 @@ export async function GET(
       created_at,
       title,
       likes (user_id),
+      comments (created_at, content, user: user_id (id, name, account_id)),
       user: user_id (id, name, account_id)
       `
     )
@@ -67,7 +77,15 @@ export async function GET(
     imagePath: `${publicAsagohanURL}${asagohan.id}.png`,
     likes: asagohan.likes.length,
     isLiked: asagohan.likes.some((like) => like.user_id === userID),
-    comments: [],
+    comments: asagohan.comments.map((comment) => ({
+      content: comment.content,
+      createdAt: comment.created_at,
+      user: {
+        name: comment.user.name,
+        accountID: comment.user.account_id,
+        userIconPath: `${publicUserIconURL}${comment.user.id}.png`,
+      },
+    })),
     user: {
       name: asagohan.user.name,
       accountID: asagohan.user.account_id,
