@@ -42,18 +42,55 @@ export default function Home() {
         </div>
       </Header>
       <main className={styles.main}>
-        <div className={styles.third}>
-          <Avatar
-            alt="投稿者イラスト"
-            src="user_image.png"
-          />
-          <p>アカウント名</p>
-        </div>
-        <div>
+        <div className={styles.acount}>
+          <div className={styles.third}>
+            <Avatar
+              alt="投稿者イラスト"
+              src="user_image.png"
+            />
+            <p>アカウント名</p>
+          </div>
           <p className={styles.time}>
             ○時○分
           </p>
         </div>
+        <div className={styles.container}>
+          <Image className={styles.post}
+            src="朝ごはん投稿画像.svg"
+            alt="朝ごはん投稿画像"
+            width={300}
+            height={300}
+          />
+        </div>
+        <div className={styles.forth}>
+          <div className={styles.button}>
+            <div className={styles.good}>
+              <Image className={styles.goodbutton}
+                src="いいねボタン.svg"
+                alt="いいねボタン画像"
+                width={80}
+                height={70}
+              />
+              <p className={styles.goodcount}>
+                xx
+              </p>
+            </div>
+            <div className={styles.comment}>
+              <Image className={styles.commentbutton}
+                src="コメントボタン.svg"
+                alt="コメントボタン画像"
+                width={80}
+                height={70}
+              />
+              <p className={styles.commentcount}>
+                xx
+              </p>
+            </div>
+          </div>
+            <p className={styles.title}>
+              今日のタイトル
+            </p>
+          </div>
       </main>
     </div>
   )

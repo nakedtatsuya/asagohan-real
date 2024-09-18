@@ -16,7 +16,12 @@
 .main{
  padding: 80px 10px;
  display: flex;
- justify-content: space-between;
+ flex-direction: column;
+}
+
+.acount{
+  display: flex;
+  justify-content: space-between;
 }
 
 .third{
@@ -27,7 +32,44 @@
 
 .time{
   display: flex;
-  
+}
+
+.container {
+  display: flex; /* Flexboxを有効に */
+  justify-content: center; /* 横方向の中央揃え */
+}
+
+.post{
+  max-width: 100%; /* 画像が親要素を超えないようにする */
+  height: auto; /* 高さを自動調整 */
+}
+
+.forth{
+  display: flex;
+}
+
+.button{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.good{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.comment{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.title{
+  font-size: 2em;
+  width: 30%;
+  margin: 0 auto;
 }
 
 
