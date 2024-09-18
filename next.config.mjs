@@ -10,6 +10,9 @@ const withPWA = nextPWA({
 
 const nextConfig = withPWA({
   reactStrictMode: true,
+  images: {
+    domains: ['prkmeuqkrooltclacpzl.supabase.co'],
+  },
 });
 
 export default nextConfig;
