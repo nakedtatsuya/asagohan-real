@@ -3,6 +3,7 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "./components/Header";
+import { Avatar } from "@mui/material";
 
 
 export default function Home() {
@@ -41,7 +42,18 @@ export default function Home() {
         </div>
       </Header>
       <main className={styles.main}>
-        あいうえお
+        <div className={styles.third}>
+          <Avatar
+            alt="投稿者イラスト"
+            src="user_image.png"
+          />
+          <p>アカウント名</p>
+        </div>
+        <div>
+          <p className={styles.time}>
+            ○時○分
+          </p>
+        </div>
       </main>
     </div>
   )

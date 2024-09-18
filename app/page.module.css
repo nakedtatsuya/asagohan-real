@@ -14,5 +14,21 @@
 }
 
 .main{
- padding: 60px 20px;
+ padding: 80px 10px;
+ display: flex;
+ justify-content: space-between;
 }
+
+.third{
+ display: flex;
+ align-items: center;
+ gap: 10px;
+}
+
+.time{
+  display: flex;
+  
+}
+
+
+
