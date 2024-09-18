@@ -2,16 +2,17 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import Link from "next/link";
 import { Avatar } from "@mui/material";
+import Header from "@/app/components/Header";
 
 export default function Home() {
   return (
     <main className={styles.main}>
-
-      <Link href={"/"}>←
+<Header> <Link href={"/"}>←
       </Link>
 
-      <h1 className={styles.h1}>ユーザプロフィール</h1>
-
+      <h1 className={styles.h1}>ユーザプロフィール</h1><div></div>
+</Header>
+     
       <div>
       </div>
       <Avatar src="/user_image.png" alt={"userIcon"} sx={{ width: '200px', height: '200px' }}></Avatar>
