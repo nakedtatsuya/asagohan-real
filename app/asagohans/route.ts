@@ -1,4 +1,5 @@
-import supabase from "../supabase";
+import supabase from "@/app/supabase";
+import type Asagohan from "../types/Asagohan";
 
 export async function GET() {
   const todayStart = new Date();
@@ -23,6 +24,18 @@ export async function GET() {
       status: 404,
     });
   }
+  const publicURLresponseData = await supabase.storage
+    .from("asagohans")
+    .getPublicUrl("");
+  const publicURL = publicURLresponseData.data.publicUrl || "";
 
-  return Response.json({ data });
+  const asagohans: Asagohan[] = data.map((asagohan) => ({
+    id: asagohan.id,
+    created_at: asagohan.created_at,
+    title: asagohan.title,
+    imagePath: `${publicURL}${asagohan.id}.png`,
+    userID: asagohan.user_id,
+  }));
+
+  return Response.json({ data: asagohans });
 }
