@@ -1,9 +1,12 @@
 import supabase from "@/app/supabase";
-import type Asagohan from "../types/Asagohan";
+import type Asagohan from "../../types/Asagohan";
 interface AsagohanResponse {
   id: string;
   created_at: string;
   title: string;
+  likes: {
+    user_id: string;
+  }[];
   user: {
     id: string;
     name: string;
@@ -11,7 +14,12 @@ interface AsagohanResponse {
   };
 }
 
-export async function GET() {
+export async function GET(
+  _: Request,
+  { params }: { params: { userID: string } }
+) {
+  const userID = params.userID;
+
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
 
@@ -25,6 +33,7 @@ export async function GET() {
       id,
       created_at,
       title,
+      likes (user_id),
       user: user_id (id, name, account_id)
       `
     )
@@ -56,6 +65,9 @@ export async function GET() {
     created_at: asagohan.created_at,
     title: asagohan.title,
     imagePath: `${publicAsagohanURL}${asagohan.id}.png`,
+    likes: asagohan.likes.length,
+    isLiked: asagohan.likes.some((like) => like.user_id === userID),
+    comments: [],
     user: {
       name: asagohan.user.name,
       accountID: asagohan.user.account_id,
