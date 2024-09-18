@@ -12,8 +12,10 @@ async function getTodayAsagohans(userID: string): Promise<Asagohan[]> {
 }
 
 export default async function Home() {
-  // const userID = "b2113406-aaaf-43bc-a32c-a5cc003506d7";
-  // const asagohans = await getTodayAsagohans(userID);
+  const userID = "b2113406-aaaf-43bc-a32c-a5cc003506d7";
+  const asagohans = await getTodayAsagohans(userID);
+  console.log(asagohans);
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
