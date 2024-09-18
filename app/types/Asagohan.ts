@@ -10,6 +10,7 @@ export default interface Asagohan {
   isLiked: boolean;
   comments: Comment[];
   user: User;
+  ranking: number | null;
 }
 
 export interface UserBestAsagohan extends Pick<Asagohan, "id" | "imagePath"> {}

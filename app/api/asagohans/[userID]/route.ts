@@ -29,6 +29,7 @@ export async function GET(
   { params }: { params: { userID: string } }
 ) {
   const userID = params.userID;
+  console.log(userID);
 
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
@@ -36,6 +37,8 @@ export async function GET(
   const todayEnd = new Date();
   todayEnd.setHours(11, 59, 59, 999); // 今日の終了時刻 (11:59:59)
 
+  console.log(todayStart.toISOString());
+  console.log(todayEnd.toISOString());
   const { data, error } = await supabase
     .from("asagohans")
     .select(
@@ -51,6 +54,8 @@ export async function GET(
     .gte("created_at", todayStart.toISOString()) // 今日の開始時刻以降
     .lte("created_at", todayEnd.toISOString()) // 今日の終了時刻以前
     .returns<AsagohanResponse[]>();
+
+  console.log(data);
 
   if (error) {
     return new Response(`Internal Server Error: ${error.message}`, {
@@ -76,6 +81,18 @@ export async function GET(
     return `${date.getHours()}時${date.getMinutes()}分`;
   };
 
+  // いいね数でソート
+  const sortedData = data.sort((a, b) => b.likes.length - a.likes.length);
+
+  // ランキングを付ける
+  const rankedData = sortedData.map((asagohan, index) => {
+    if (index < 3) {
+      return { ...asagohan, ranking: index + 1 };
+    } else {
+      return { ...asagohan, ranking: null };
+    }
+  });
+
   const asagohans: Asagohan[] = data.map((asagohan) => ({
     id: asagohan.id,
     createdAt: formatCreatedAtDate(asagohan.created_at),
@@ -97,7 +114,19 @@ export async function GET(
       accountID: asagohan.user.account_id,
       userIconPath: `${publicUserIconURL}${asagohan.user.id}.png`,
     },
+    ranking:
+      rankedData.find((ranked) => ranked.id === asagohan.id)?.ranking || null,
   }));
+
+  asagohans.sort((a, b) => {
+    if (a.createdAt < b.createdAt) {
+      return -1;
+    }
+    if (a.createdAt > b.createdAt) {
+      return 1;
+    }
+    return 0;
+  });
 
   return Response.json({ data: asagohans });
 }
