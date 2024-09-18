@@ -36,7 +36,25 @@
   font-size: 1em;
 }
 
+.iconPicture{
+  text-align: center;
+}
+
 .account_name {
+  align-items: center;
+  margin: 0%;
+}
+
+.userIcon{
+margin-top: 80px;
+width: 100%;
+}
+
+
+.usericonTextContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -44,7 +62,12 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  width: 100%;
+  margin-bottom: 0%;
+
 }
+
+
 
 .profile1 {
   display: flex;
@@ -53,7 +76,33 @@
   gap: 8px;
 }
 
+.profile2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
+}
+
+.date {
+  text-align: center;
+}
+
+.week_asagohan {
+  width: 100%;
+  overflow-x: scroll;
+}
+
+.week_asagohan div {
+  margin: 10px;
+}
+
+.weeklyAsagohan{
+  width: 100%;
+}
+
+.scroll {
+  display: flex;
+}
 
 .main ol {
   font-family: var(--font-geist-mono);
