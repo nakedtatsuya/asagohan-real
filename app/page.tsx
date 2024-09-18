@@ -7,7 +7,7 @@ import { useState } from "react";
 import useTodayAsagohans from "@/app/hooks/useTodayAsagohans";
 
 export default function Home() {
-  const [userID, setUserID] = useState("b2113406-aaaf-43bc-a32c-a5cc003506d7");
+  const [userID] = useState("b2113406-aaaf-43bc-a32c-a5cc003506d7");
   const { asagohans, todayAsagohansFetching } = useTodayAsagohans(userID);
   console.log(asagohans, todayAsagohansFetching);
   return (
