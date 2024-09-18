@@ -70,16 +70,21 @@ export async function GET(
   const publicAsagohanURL = publicAsagohanURLresponseData.data.publicUrl || "";
   const publicUserIconURL = publicUserIconURLresponseData.data.publicUrl || "";
 
+  const formatCreatedAtDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return `${date.getHours()}時${date.getMinutes()}分`;
+  };
+
   const asagohans: Asagohan[] = data.map((asagohan) => ({
     id: asagohan.id,
-    created_at: asagohan.created_at,
+    created_at: formatCreatedAtDate(asagohan.created_at),
     title: asagohan.title,
     imagePath: `${publicAsagohanURL}${asagohan.id}.png`,
     likes: asagohan.likes.length,
     isLiked: asagohan.likes.some((like) => like.user_id === userID),
     comments: asagohan.comments.map((comment) => ({
       content: comment.content,
-      createdAt: comment.created_at,
+      createdAt: formatCreatedAtDate(comment.created_at),
       user: {
         name: comment.user.name,
         accountID: comment.user.account_id,
