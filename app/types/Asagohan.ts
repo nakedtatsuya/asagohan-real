@@ -11,3 +11,8 @@ export default interface Asagohan {
   comments: Comment[];
   user: User;
 }
+
+export interface UserBestAsagohan extends Pick<Asagohan, "id" | "imagePath"> {}
+
+export interface UserThisWeekAsagohan
+  extends Pick<Asagohan, "createdAt" | "imagePath"> {}

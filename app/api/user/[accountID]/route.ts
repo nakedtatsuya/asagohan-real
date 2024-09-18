@@ -1,11 +1,17 @@
 import supabase from "@/app/supabase";
-// import type Asagohan from "@/app/types/Asagohan";
-import User from "@/app/types/User";
+import type { UserProfile } from "@/app/types/User";
 
 interface UserResponse {
   id: string;
   name: string;
   account_id: string;
+  asagohans: {
+    id: string;
+    created_at: string;
+    likes: {
+      user_id: string;
+    }[];
+  }[];
 }
 
 export async function GET(
@@ -14,24 +20,18 @@ export async function GET(
 ) {
   const accountID = params.accountID;
 
-  const todayStart = new Date();
-  todayStart.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
-
-  const todayEnd = new Date();
-  todayEnd.setHours(11, 59, 59, 999); // 今日の終了時刻 (11:59:59)
-
   const { data, error } = await supabase
     .from("users")
     .select(
       `
       id,
       name,
-      account_id
+      account_id,
+      asagohans (id, created_at, likes (user_id))
       `
     )
     .eq("account_id", accountID)
     .single<UserResponse>();
-  console.log(data);
 
   if (error) {
     return new Response(`Internal Server Error: ${error.message}`, {
@@ -43,24 +43,62 @@ export async function GET(
       status: 404,
     });
   }
-  // const publicAsagohanURLresponseData = await supabase.storage
-  //   .from("asagohans")
-  //   .getPublicUrl("");
+
+  const asagohans = data.asagohans;
+
+  const thisWeekAsagohans = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - i - 1);
+    const targetAsagohan = asagohans.find(
+      (asagohan) => new Date(asagohan.created_at).getDate() === date.getDate()
+    );
+    return targetAsagohan
+      ? {
+          id: targetAsagohan.id,
+          created_at: targetAsagohan.created_at,
+        }
+      : { id: "0", created_at: date.toISOString() };
+  });
+
+  const bestAsagohan = asagohans.reduce(
+    (best, asagohan) => {
+      if (asagohan.likes.length > best.likes) {
+        return {
+          id: asagohan.id,
+          likes: asagohan.likes.length,
+        };
+      }
+      return best;
+    },
+    { id: "0", likes: 0 }
+  );
+
+  const publicAsagohanURLresponseData = await supabase.storage
+    .from("asagohans")
+    .getPublicUrl("");
   const publicUserIconURLresponseData = await supabase.storage
     .from("user-icons")
     .getPublicUrl("");
-  // const publicAsagohanURL = publicAsagohanURLresponseData.data.publicUrl || "";
+  const publicAsagohanURL = publicAsagohanURLresponseData.data.publicUrl || "";
   const publicUserIconURL = publicUserIconURLresponseData.data.publicUrl || "";
 
-  // const formatCreatedAtDate = (dateString: string) => {
-  //   const date = new Date(dateString);
-  //   return `${date.getHours()}時${date.getMinutes()}分`;
-  // };
+  const formatCreatedAtDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return `${date.getMonth() + 1}月${date.getDate()}日`;
+  };
 
-  const user: User = {
+  const user: UserProfile = {
     name: data.name,
     accountID: data.account_id,
     userIconPath: `${publicUserIconURL}${data.id}.png`,
+    bestAsagohan: {
+      id: bestAsagohan.id,
+      imagePath: `${publicAsagohanURL}${bestAsagohan.id}.png`,
+    },
+    thisWeekAsagohans: thisWeekAsagohans.map((asagohan) => ({
+      createdAt: formatCreatedAtDate(asagohan.created_at),
+      imagePath: `${publicAsagohanURL}${asagohan.id}.png`,
+    })),
   };
   return Response.json({ data: user });
 }
