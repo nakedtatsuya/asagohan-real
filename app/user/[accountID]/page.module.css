@@ -20,9 +20,7 @@
   .page {
     --gray-rgb: 255, 255, 255;
     --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
-    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
-
-    --button-primary-hover: #ccc;
+    --gray-alpha-100: rgba(var(--gray-rgb), 0.06) --button-primary-hover: #ccc;
     --button-secondary-hover: #1a1a1a;
   }
 }
@@ -33,6 +31,29 @@
   gap: 32px;
   grid-row-start: 2;
 }
+
+.h1 {
+  font-size: 1em;
+}
+
+.account_name {
+  align-items: center;
+}
+
+.iconTextContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.profile1 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+
 
 .main ol {
   font-family: var(--font-geist-mono);
