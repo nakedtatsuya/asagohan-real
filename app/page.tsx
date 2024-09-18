@@ -2,12 +2,13 @@
 import styles from "./page.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import Header from "./components/Header";
 
 
 export default function Home() {
   return (
     <div className={styles.page}>
-      <header className={styles.header}>
+      <Header>
         <div className={styles.first}>
           <Image className={styles.aikon}
             src="ロゴアイコン.svg"
@@ -16,7 +17,7 @@ export default function Home() {
             height={60}
           />
           <h1 className={styles.h1}>
-            起きろ!<br/>
+            起きろ!<br />
             朝ごはんReal.
           </h1>
         </div>
@@ -38,7 +39,7 @@ export default function Home() {
             />
           </Link>
         </div>
-      </header>
+      </Header>
       <main className={styles.main}>
         あいうえお
       </main>
