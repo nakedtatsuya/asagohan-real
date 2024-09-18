@@ -1,5 +1,15 @@
 import supabase from "@/app/supabase";
 import type Asagohan from "../types/Asagohan";
+interface AsagohanResponse {
+  id: string;
+  created_at: string;
+  title: string;
+  user: {
+    id: string;
+    name: string;
+    account_id: string;
+  };
+}
 
 export async function GET() {
   const todayStart = new Date();
@@ -10,9 +20,17 @@ export async function GET() {
 
   const { data, error } = await supabase
     .from("asagohans")
-    .select("*")
+    .select(
+      `
+      id,
+      created_at,
+      title,
+      user: user_id (id, name, account_id)
+      `
+    )
     .gte("created_at", todayStart.toISOString()) // 今日の開始時刻以降
-    .lte("created_at", todayEnd.toISOString()); // 今日の終了時刻以前
+    .lte("created_at", todayEnd.toISOString()) // 今日の終了時刻以前
+    .returns<AsagohanResponse[]>();
 
   if (error) {
     return new Response(`Internal Server Error: ${error.message}`, {
@@ -24,17 +42,25 @@ export async function GET() {
       status: 404,
     });
   }
-  const publicURLresponseData = await supabase.storage
+  const publicAsagohanURLresponseData = await supabase.storage
     .from("asagohans")
     .getPublicUrl("");
-  const publicURL = publicURLresponseData.data.publicUrl || "";
+  const publicUserIconURLresponseData = await supabase.storage
+    .from("user-icons")
+    .getPublicUrl("");
+  const publicAsagohanURL = publicAsagohanURLresponseData.data.publicUrl || "";
+  const publicUserIconURL = publicUserIconURLresponseData.data.publicUrl || "";
 
   const asagohans: Asagohan[] = data.map((asagohan) => ({
     id: asagohan.id,
     created_at: asagohan.created_at,
     title: asagohan.title,
-    imagePath: `${publicURL}${asagohan.id}.png`,
-    userID: asagohan.user_id,
+    imagePath: `${publicAsagohanURL}${asagohan.id}.png`,
+    user: {
+      name: asagohan.user.name,
+      accountID: asagohan.user.account_id,
+      userIconPath: `${publicUserIconURL}${asagohan.user.id}.png`,
+    },
   }));
 
   return Response.json({ data: asagohans });
