@@ -5,7 +5,45 @@ import Link from "next/link";
 import Header from "./components/Header";
 import { Avatar } from "@mui/material";
 
-
+const testAsagohans = [
+  {
+    id: "1",
+    createdAt: "8時30分",
+    title: "test朝ごはん",
+    imagePath: "https://prkmeuqkrooltclacpzl.supabase.co/storage/v1/object/public/asagohans/2.png",
+    likes: 10,
+    isLiked: true,
+    ranking: 1,
+    comments: [
+      {
+        content: "おいしそう!",
+        createdAt: "8時31分",
+        user: {
+          name: "testユーザー",
+          accountID: "test-user",
+          userIconPath:
+            "https://prkmeuqkrooltclacpzl.supabase.co/storage/v1/object/public/user_icons/79441e4f-39bc-4d2e-978b-68d5907000c2.png",
+        },
+      },
+      {
+        content: "早起きえらい",
+        createdAt: "10時31分",
+        user: {
+          name: "testユーザー",
+          accountID: "test-user",
+          userIconPath:
+            "https://prkmeuqkrooltclacpzl.supabase.co/storage/v1/object/public/user_icons/79441e4f-39bc-4d2e-978b-68d5907000c2.png",
+        },
+      },
+    ],
+    user: {
+      name: "test-yuka",
+      accountID: "test-user",
+      userIconPath:
+        "https://prkmeuqkrooltclacpzl.supabase.co/storage/v1/object/public/user_icons/79441e4f-39bc-4d2e-978b-68d5907000c2.png",
+    },
+  },
+];
 export default function Home() {
   return (
     <div className={styles.page}>
@@ -48,7 +86,7 @@ export default function Home() {
               alt="投稿者イラスト"
               src="user_image.png"
             />
-            <p>アカウント名</p>
+            <p>{testAsagohans[0].user.name}</p>
           </div>
           <p className={styles.time}>
             ○時○分
@@ -87,21 +125,21 @@ export default function Home() {
               </p>
             </div>
           </div>
-            <p className={styles.title}>
-              今日のタイトル
-            </p>
-          </div>
-          <div className={styles.rankingstar}>
+          <p className={styles.title}>
+            今日のタイトル
+          </p>
+        </div>
+        <div className={styles.rankingstar}>
           <Image className={styles.star}
-                src="ランキング星画像.svg"
-                alt="ランキング星画像"
-                width={70}
-                height={70}
-              />
-            <p className={styles.rankingcount}>
-              1
-            </p>
-            </div>
+            src="ランキング星画像.svg"
+            alt="ランキング星画像"
+            width={70}
+            height={70}
+          />
+          <p className={styles.rankingcount}>
+            1
+          </p>
+        </div>
       </main>
     </div>
   )
