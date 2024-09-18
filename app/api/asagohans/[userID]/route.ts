@@ -78,7 +78,7 @@ export async function GET(
 
   const asagohans: Asagohan[] = data.map((asagohan) => ({
     id: asagohan.id,
-    created_at: formatCreatedAtDate(asagohan.created_at),
+    createdAt: formatCreatedAtDate(asagohan.created_at),
     title: asagohan.title,
     imagePath: `${publicAsagohanURL}${asagohan.id}.png`,
     likes: asagohan.likes.length,
