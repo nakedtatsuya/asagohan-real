@@ -1,5 +1,6 @@
 import supabase from "@/app/supabase";
-import type Asagohan from "../../types/Asagohan";
+import type Asagohan from "@/app/types/Asagohan";
+
 interface AsagohanResponse {
   id: string;
   created_at: string;

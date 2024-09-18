@@ -1,7 +1,19 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import type Asagohan from "@/app/types/Asagohan";
 
-export default function Home() {
+async function getTodayAsagohans(userID: string): Promise<Asagohan[]> {
+  const res = await fetch(`http://localhost:3000/api/asagohans/${userID}`);
+  if (!res.ok) {
+    throw new Error("Failed to fetch data");
+  }
+  const asagohans = await res.json();
+  return asagohans.data;
+}
+
+export default async function Home() {
+  // const userID = "b2113406-aaaf-43bc-a32c-a5cc003506d7";
+  // const asagohans = await getTodayAsagohans(userID);
   return (
     <div className={styles.page}>
       <main className={styles.main}>
