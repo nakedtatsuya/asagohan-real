@@ -14,5 +14,91 @@
 }
 
 .main{
- padding: 60px 20px;
+ padding: 80px 10px;
+ display: flex;
+ flex-direction: column;
+ border-bottom: 3px solid #f4f4e4;
+}
+
+.acount{
+  display: flex;
+  justify-content: space-between;
+}
+
+.third{
+ display: flex;
+ align-items: center;
+ gap: 10px;
+}
+
+.time{
+  display: flex;
+}
+
+.container {
+  display: flex; /* Flexboxを有効に */
+  justify-content: center; /* 横方向の中央揃え */
+}
+
+.post{
+  max-width: 100%; /* 画像が親要素を超えないようにする */
+  height: auto; /* 高さを自動調整 */
+}
+
+.forth{
+  height: 50px;
+}
+
+.button{
+  display: flex;
+  position: absolute;
+  gap: 10px;
+}
+
+.good{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.goodcount{
+  font-size: 10px;
+}
+
+.comment{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.commentcount{
+  font-size: 10px;
+}
+
+.title{
+  font-size: 1em;
+  width: fit-content;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+.rankingstar{
+  position: absolute; /*親要素にrelative*/
+  top: 390px;
+  right: 30px;
+}
+
+.star{
+  width: 100%;
+}
+
+.rankingcount{
+  margin: 0;
+  font-size: 20px;
+  position: absolute; /*文字にabsolute*/
+
+   /*中央寄せの「おまじない」*/
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
 }
