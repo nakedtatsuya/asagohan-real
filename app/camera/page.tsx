@@ -2,7 +2,6 @@
 import styles from "./page.module.css";
 import { useEffect, useRef } from "react";
 import Image from 'next/image';
-import useTodayAsagohans from "@/app/hooks/useTodayAsagohans";
 
 export default function Home() {
     const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -11,7 +10,14 @@ export default function Home() {
     // カメラを起動する関数
     const startCamera = async () => {
         try {
-            const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
+            const mediaStream = await navigator.mediaDevices.getUserMedia({
+                video: {
+                    facingMode: "environment",
+                    width: { ideal: 1280 }, // 解像度を指定 (理想的な幅)
+                    height: { ideal: 720 },  // 解像度を指定 (理想的な高さ)
+                },
+                audio: false,
+            });
             if (videoRef.current) {
                 videoRef.current.srcObject = mediaStream;
             }
