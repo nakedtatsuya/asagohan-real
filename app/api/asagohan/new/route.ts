@@ -1,5 +1,4 @@
 import supabase from "@/app/supabase";
-import Asagohan from "@/app/types/Asagohan";
 
 export async function POST(request: Request) {
   const { userID, title } = await request.json();
