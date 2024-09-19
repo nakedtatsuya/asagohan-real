@@ -35,6 +35,7 @@ export default function Home() {
             }
         } else {
             setIsButtonEnabled(false);
+            setErrorMessage("すべて入力して下さい");
         }
     }, [username, email, password, confirmPassword]);
 
@@ -77,7 +78,7 @@ export default function Home() {
                                     id="file-input"
                                     type="file"
                                     capture="environment"
-                                    accept="image/*"
+                                    accept="image/png*"
                                     style={{ display: "none" }}
                                     onChange={handleImageChange}
                                 />
