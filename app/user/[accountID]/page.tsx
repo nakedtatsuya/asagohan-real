@@ -9,8 +9,10 @@ import Avatar, {
   AvatarSlotsAndSlotProps,
 } from "@mui/material/Avatar"; // 必要に応じてインポート
 import { CommonProps } from "@mui/material/OverridableComponent";
-import { JSX, ElementType } from "react";
+import { JSX, ElementType, useState } from "react";
 import useUserProfile from "@/app/hooks/useUserProfile";
+import { Button, IconButton, Modal, TextField } from "@mui/material";
+import Box from "@mui/material/Box";
 
 // SmallAvatar の定義
 const SmallAvatar = (
@@ -24,15 +26,70 @@ const SmallAvatar = (
 export default function Home({ params }: { params: { accountID: string } }) {
   const accountID = params.accountID;
   const { userProfile, todayUserProfileFetching } = useUserProfile(accountID);
+  const [isEditingName, setIsEditingName] = useState(false);
+
+  if (todayUserProfileFetching) {
+    return <main>Loading...</main>;
+  }
+  if (!userProfile) {
+    return <main>Not Found</main>;
+  }
+
   console.log(userProfile, todayUserProfileFetching);
+
+  const modalStyle = {
+    bgcolor: "var(--light)",
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "80%",
+    boxShadow: 24,
+    p: 4,
+    fontFamily: "var(--font)",
+  };
+
   return (
     <main className={styles.main}>
       <Header>
-        {" "}
         <Link href={"/"}>←</Link>
         <h1 className={styles.h1}>ユーザプロフィール</h1>
         <div></div>
       </Header>
+
+      <Modal
+        open={isEditingName}
+        onClose={() => setIsEditingName(false)}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={modalStyle}>
+          <form action="update">
+            <Box display={"flex"} flexDirection={"column"} gap={"20px"}>
+              <TextField
+                id="outlined-basic"
+                variant="outlined"
+                fullWidth
+                label="ユーザネーム"
+                defaultValue={userProfile.name}
+                sx={{
+                  // 入力値にフォントを適用
+                  "& .MuiOutlinedInput-root": { fontFamily: "var(--font)" },
+                  "& input": {
+                    color: "var(--primary)",
+                  },
+                  "& label": {
+                    fontFamily: "var(--font)",
+                  },
+                }}
+              />
+              <Button type="submit" variant="contained">
+                完了
+              </Button>
+            </Box>
+          </form>
+        </Box>
+      </Modal>
 
       <div className={styles.iconPicture}>
         <div className={styles.changeIcon}>
@@ -58,7 +115,12 @@ export default function Home({ params }: { params: { accountID: string } }) {
 
         <div className={styles.account_name}>
           アカウント名
-          <Image src="/pen.svg" alt={"pen"} height={16} width={16} />
+          <IconButton
+            onClick={() => setIsEditingName(true)}
+            sx={{ width: "fit-content" }}
+          >
+            <Image src="/pen.svg" alt={"pen"} height={16} width={16} />
+          </IconButton>
         </div>
       </div>
 
