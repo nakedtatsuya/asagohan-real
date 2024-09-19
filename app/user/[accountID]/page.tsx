@@ -77,7 +77,7 @@ export default function Home({ params }: { params: { accountID: string } }) {
 
   const modalStyle = {
     bgcolor: "var(--light)",
-    position: "absolute" as "absolute",
+    position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
