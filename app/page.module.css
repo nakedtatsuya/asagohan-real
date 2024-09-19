@@ -20,6 +20,33 @@
  border-bottom: 3px solid #f4f4e4;
 }
 
+.drawer{
+  display: flex;
+  width: auto;
+  padding: 20px;
+  height: 50vh;
+  background-Color: #f4f4e4;
+  flex-direction: column;
+}
+
+.usercomment{
+  display: flex;
+  gap: 15px;
+  flex-grow: 1;
+}
+
+.useravator{
+  display: flex;
+}
+
+.timecommnet{
+  display: flex;
+}
+
+.commentpush{
+  display: flex;
+}
+
 .acount{
   display: flex;
   justify-content: space-between;
