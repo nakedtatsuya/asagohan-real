@@ -7,7 +7,7 @@ import { useState } from "react";
 import useTodayAsagohans from "@/app/hooks/useTodayAsagohans";
 import { Avatar } from "@mui/material";
 
-const testAsagohans = [
+const testAsagohan = 
   {
     id: "1",
     createdAt: "8時30分",
@@ -44,12 +44,18 @@ const testAsagohans = [
       userIconPath:
         "https://prkmeuqkrooltclacpzl.supabase.co/storage/v1/object/public/user_icons/79441e4f-39bc-4d2e-978b-68d5907000c2.png",
     },
-  },
-];
+  };
 export default function Home() {
   const [userID] = useState("b2113406-aaaf-43bc-a32c-a5cc003506d7");
   const { asagohans, todayAsagohansFetching } = useTodayAsagohans(userID);
   console.log(asagohans, todayAsagohansFetching);
+  // const [flag, setFlag] = useState(false); // 初期値はfalse
+  // console.log(flag);
+
+  const handleClick = () => {
+    console.log("クリックされました");
+  };
+
   return (
     <div className={styles.page}>
       <Header>
@@ -93,33 +99,33 @@ export default function Home() {
           <div className={styles.third}>
             <Avatar
               alt="投稿者イラスト"
-              src="user_image.png"
+              src={testAsagohan.user.userIconPath}
             />
-            <p>{testAsagohans[0].user.name}</p>
+            <p>{testAsagohan.user.name}</p>
           </div>
           <p className={styles.time}>
-            ○時○分
+            {testAsagohan.createdAt}
           </p>
         </div>
         <div className={styles.container}>
-          <Image className={styles.post}
-            src="朝ごはん投稿画像.svg"
-            alt="朝ごはん投稿画像"
-            width={300}
-            height={300}
-          />
+            <Image className={styles.post}
+              src={testAsagohan.imagePath}
+              alt="朝ごはん投稿画像"
+              width={319}
+              height={229}
+            />
         </div>
         <div className={styles.forth}>
           <div className={styles.button}>
             <div className={styles.good}>
-              <Image className={styles.goodbutton}
-                src="いいねボタン.svg"
-                alt="いいねボタン画像"
+              <Image onClick={handleClick}　className={styles.goodbutton}
+                src={testAsagohan.isLiked ?  "いいね前のボタン.svg" : "いいね後のボタン.svg"}
+                alt="いいね前のボタン画像"
                 width={25}
                 height={25}
               />
               <p className={styles.goodcount}>
-                xx
+                {testAsagohan.likes}
               </p>
             </div>
             <div className={styles.comment}>
@@ -130,12 +136,12 @@ export default function Home() {
                 height={25}
               />
               <p className={styles.commentcount}>
-                xx
+                {testAsagohan.comments.length}
               </p>
             </div>
           </div>
           <p className={styles.title}>
-            今日のタイトル
+            {testAsagohan.title}
           </p>
         </div>
         <div className={styles.rankingstar}>
@@ -146,7 +152,7 @@ export default function Home() {
             height={70}
           />
           <p className={styles.rankingcount}>
-            1
+            {testAsagohan.ranking}
           </p>
         </div>
       </main>
