@@ -1,83 +1,129 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import styles from "./page.module.css";
+import Avatar from "@mui/material/Avatar";
+import { Badge } from "@mui/material";
+
+// Define the type for SmallAvatar props
+interface SmallAvatarProps {
+    alt: string;
+    src: string;
+}
+
+const SmallAvatar: React.FC<SmallAvatarProps> = (props) => (
+    <Avatar {...props} sx={{ width: 40, height: 40, border: "2px solid white" }} />
+);
 
 export default function Home() {
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [isButtonEnabled, setIsButtonEnabled] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(""); // エラーメッセージの状態
+    const [username, setUsername] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [confirmPassword, setConfirmPassword] = useState<string>("");
+    const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>("");
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-    // Check if all fields are filled and passwords match
+    // Enable/disable button based on form validation
     useEffect(() => {
         if (username && email && password && confirmPassword) {
             if (password === confirmPassword) {
                 setIsButtonEnabled(true);
-                setErrorMessage(""); // パスワードが一致したらエラーメッセージをクリア
+                setErrorMessage("");
             } else {
                 setIsButtonEnabled(false);
-                setErrorMessage("パスワードが一致しません"); // パスワードが一致しない場合のエラーメッセージ
+                setErrorMessage("パスワードが一致しません");
             }
         } else {
             setIsButtonEnabled(false);
         }
     }, [username, email, password, confirmPassword]);
 
-    // フォーム送信時の処理
-    const handleSubmit = (e: { preventDefault: () => void; }) => {
-        e.preventDefault(); // ページリロードを防ぐ
-
-        // 入力内容の検証
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         if (!username || !email || !password || !confirmPassword) {
-            setErrorMessage("全てのフィールドを入力してください"); // フィールドが未入力の場合のエラーメッセージ
+            setErrorMessage("全てのフィールドを入力してください");
         } else if (password !== confirmPassword) {
-            setErrorMessage("パスワードが一致しません"); // パスワードが一致しない場合のエラーメッセージ
+            setErrorMessage("パスワードが一致しません");
         } else {
-            setErrorMessage(""); // 問題なければエラーメッセージをクリア
-            // ここに登録処理を追加
+            setErrorMessage("");
             alert("登録が完了しました！");
+        }
+    };
+
+    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setSelectedImage(reader.result as string);
+            };
+            reader.readAsDataURL(file);
         }
     };
 
     return (
         <div className={styles.container}>
             <h1 className={styles.title}>新規アカウント登録</h1>
-            <div className={styles.icon}>
-                <img src="/default_icon.svg" alt="default Icon" />
+
+            <div className={styles.iconPicture}>
+                <div className={styles.changeIcon}>
+                    <Badge
+                        overlap="circular"
+                        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                        badgeContent={
+                            <label htmlFor="file-input">
+                                <SmallAvatar alt="camera" src="/camera.svg" />
+                                <input
+                                    id="file-input"
+                                    type="file"
+                                    capture="environment"
+                                    accept="image/*"
+                                    style={{ display: "none" }}
+                                    onChange={handleImageChange}
+                                />
+                            </label>
+                        }
+                    >
+                        <Avatar
+                            className={styles.icon}
+                            src={selectedImage || "/default_icon.svg"}
+                            alt="default Icon"
+                            sx={{ width: "170px", height: "170px" }}
+                        />
+                    </Badge>
+                </div>
             </div>
+
             <form className={styles.form} onSubmit={handleSubmit}>
                 <input
                     type="text"
                     placeholder="ユーザ名"
                     className={styles.input}
                     value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setUsername(e.target.value)}
                 />
                 <input
                     type="email"
                     placeholder="メールアドレス"
                     className={styles.input}
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                 />
                 <input
                     type="password"
                     placeholder="パスワード (半角英数字)"
                     className={styles.input}
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                 />
                 <input
                     type="password"
                     placeholder="パスワード (再入力)"
                     className={styles.input}
                     value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setConfirmPassword(e.target.value)}
                 />
 
-                {/* エラーメッセージの表示 */}
                 {errorMessage && <p className={styles.error}>{errorMessage}</p>}
 
                 <button
