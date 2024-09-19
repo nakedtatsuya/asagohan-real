@@ -3,7 +3,7 @@ import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import styles from "./page.module.css";
 import Avatar from "@mui/material/Avatar";
 import { Badge } from "@mui/material";
-import supabase from "../supabase"; // Supabaseのインスタンスをインポート
+import supabase from "../supabase";
 import usePostUser from "../hooks/usePostUser";
 
 interface SmallAvatarProps {
@@ -30,7 +30,7 @@ export default function Home() {
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const { userSending, postUser } = usePostUser();
+  const { postUser } = usePostUser();
 
   if (loading) {
     return <main>登録中...</main>;
@@ -110,18 +110,6 @@ export default function Home() {
 
     setSelectedImageFile(file);
     setSelectedImage(URL.createObjectURL(file));
-  };
-
-  // Data URIからBlobに変換する関数
-  const dataURItoBlob = (dataURI: string) => {
-    const byteString = atob(dataURI.split(",")[1]);
-    const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: mimeString });
   };
 
   return (

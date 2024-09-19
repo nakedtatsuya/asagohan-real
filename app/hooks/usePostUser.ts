@@ -12,7 +12,6 @@ const usePostUser = () => {
     userIcon: File
   ) => {
     setSending(true);
-    console.log(userID, name, accountID);
     const res = await fetch(`http://localhost:3000/api/user/new`, {
       method: "POST",
       headers: {
@@ -21,7 +20,6 @@ const usePostUser = () => {
       body: JSON.stringify({ userID, name, accountID }),
     });
 
-    console.log(res);
     if (!res.ok) {
       console.error("Failed to post user");
     }
