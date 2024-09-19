@@ -4,7 +4,7 @@ import styles from "./page.module.css";
 import Avatar from "@mui/material/Avatar";
 import { Badge } from "@mui/material";
 
-// Define the type for SmallAvatar props
+
 interface SmallAvatarProps {
     alt: string;
     src: string;
@@ -23,9 +23,9 @@ export default function Home() {
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-    // Enable/disable button based on form validation
+
     useEffect(() => {
-        if (username && email && password && confirmPassword) {
+        if (username && email && password && confirmPassword && selectedImage) {
             if (password === confirmPassword) {
                 setIsButtonEnabled(true);
                 setErrorMessage("");
@@ -37,12 +37,12 @@ export default function Home() {
             setIsButtonEnabled(false);
             setErrorMessage("すべて入力して下さい");
         }
-    }, [username, email, password, confirmPassword]);
+    }, [username, email, password, confirmPassword, selectedImage]);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (!username || !email || !password || !confirmPassword) {
-            setErrorMessage("全てのフィールドを入力してください");
+        if (!username || !email || !password || !confirmPassword || !selectedImage) {
+            setErrorMessage("全て入力してください");
         } else if (password !== confirmPassword) {
             setErrorMessage("パスワードが一致しません");
         } else {
@@ -78,7 +78,7 @@ export default function Home() {
                                     id="file-input"
                                     type="file"
                                     capture="environment"
-                                    accept="image/png*"
+                                    accept="image/png"
                                     style={{ display: "none" }}
                                     onChange={handleImageChange}
                                 />
