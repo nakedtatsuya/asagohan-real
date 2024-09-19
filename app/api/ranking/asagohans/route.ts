@@ -65,6 +65,7 @@ export async function GET() {
       imagePath: `${publicAsagohanURL}${asagohan.id}.png`,
       likes: asagohan.likes.length,
       user: {
+        id: asagohan.user.id,
         name: asagohan.user.name,
         accountID: asagohan.user.account_id,
         userIconPath: `${publicUserIconURL}${asagohan.user.id}.png`,
