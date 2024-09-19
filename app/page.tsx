@@ -90,7 +90,8 @@ export default function Home() {
       </Header>
       <main className={styles.main}>
         <div className={styles.acount}>
-          <div className={styles.third}>            <Avatar
+          <div className={styles.third}>
+            <Avatar
               alt="投稿者イラスト"
               src="user_image.png"
             />
@@ -110,7 +111,8 @@ export default function Home() {
         </div>
         <div className={styles.forth}>
           <div className={styles.button}>
-            <div className={styles.good}>              <Image className={styles.goodbutton}
+            <div className={styles.good}>
+              <Image className={styles.goodbutton}
                 src="いいねボタン.svg"
                 alt="いいねボタン画像"
                 width={25}
@@ -118,7 +120,8 @@ export default function Home() {
               />
               <p className={styles.goodcount}>
                 xx
-              </p>            </div>
+              </p>
+            </div>
             <div className={styles.comment}>
               <Image className={styles.commentbutton}
                 src="コメントボタン.svg"
@@ -130,7 +133,8 @@ export default function Home() {
                 xx
               </p>
             </div>
-          </div>          <p className={styles.title}>
+          </div>
+          <p className={styles.title}>
             今日のタイトル
           </p>
         </div>
