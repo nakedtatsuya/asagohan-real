@@ -122,6 +122,8 @@ export default function Home() {
             }) : <div className={styles.usercomment}></div>}
             <div className={styles.commentpush}>
               <Box
+                position= "fixed"
+                left= '20px'
                 component="form"
                 sx={{
                   '& .MuiTextField-root': { m: 1, width: '25ch' }
@@ -142,10 +144,16 @@ export default function Home() {
                   "& label": {
                     fontFamily: "var(--font)",
                   },
+                  position: "fixed",
+                  bottom: '20px',
                 }}
               />
               <Stack direction="row" spacing={2}>
-                <Button variant="contained" endIcon={<SendIcon />}>
+                <Button 
+                variant="contained" 
+                endIcon={<SendIcon />}
+                sx={{ Left: '70px',bottom: '25px' }}
+                >
                   Send
                 </Button>
               </Stack>
