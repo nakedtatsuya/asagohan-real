@@ -95,7 +95,7 @@ export default function Home() {
         >
           <div className={styles.drawer}
             role="presentation">
-            {selectedAsagohan && selectedAsagohan.comments.map(comment => {
+            {selectedAsagohan ? selectedAsagohan.comments.map(comment => {
               return (
                 <div className={styles.usercomment}>
                   <div className={styles.useravatar}>
@@ -119,7 +119,7 @@ export default function Home() {
                   </div>
                 </div>
               )
-            })}
+            }) : <div className={styles.usercomment}></div>}
             <div className={styles.commentpush}>
               <Box
                 component="form"
