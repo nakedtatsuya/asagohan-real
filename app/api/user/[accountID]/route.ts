@@ -77,7 +77,7 @@ export async function GET(
     .from("asagohans")
     .getPublicUrl("");
   const publicUserIconURLresponseData = await supabase.storage
-    .from("user-icons")
+    .from("user_icons")
     .getPublicUrl("");
   const publicAsagohanURL = publicAsagohanURLresponseData.data.publicUrl || "";
   const publicUserIconURL = publicUserIconURLresponseData.data.publicUrl || "";
@@ -87,10 +87,13 @@ export async function GET(
     return `${date.getMonth() + 1}月${date.getDate()}日`;
   };
 
+  const removeHyphen = (id: string) => id.replace(/-/g, "");
+
   const user: UserProfile = {
+    id: data.id,
     name: data.name,
     accountID: data.account_id,
-    userIconPath: `${publicUserIconURL}${data.id}.png`,
+    userIconPath: `${publicUserIconURL}${removeHyphen(data.id)}.png`,
     bestAsagohan: {
       id: bestAsagohan.id,
       imagePath: `${publicAsagohanURL}${bestAsagohan.id}.png`,
