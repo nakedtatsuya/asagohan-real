@@ -32,6 +32,10 @@ export default function Home() {
   const [loading, setLoading] = useState<boolean>(false);
   const { userSending, postUser } = usePostUser();
 
+  if (loading) {
+    return <main>登録中...</main>;
+  }
+
   useEffect(() => {
     if (username && email && password && confirmPassword && selectedImage) {
       if (password === confirmPassword) {
@@ -48,6 +52,7 @@ export default function Home() {
   }, [username, email, password, confirmPassword, selectedImage]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     e.preventDefault();
     setErrorMessage("");
     setSuccessMessage("");
