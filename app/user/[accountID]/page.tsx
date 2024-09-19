@@ -29,7 +29,7 @@ export default function Home({ params }: { params: { accountID: string } }) {
     <main className={styles.main}>
       <Header>
         {" "}
-        <Link href={"/"}>←</Link>
+        <Link className={styles.arrow} href={"/"} >←</Link>
         <h1 className={styles.h1}>ユーザプロフィール</h1>
         <div></div>
       </Header>
