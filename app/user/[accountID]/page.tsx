@@ -9,7 +9,7 @@ import Avatar, {
   AvatarSlotsAndSlotProps,
 } from "@mui/material/Avatar"; // 必要に応じてインポート
 import { CommonProps } from "@mui/material/OverridableComponent";
-import { JSX, ElementType, useState } from "react";
+import { JSX, ElementType, useState, useEffect } from "react";
 import useUserProfile from "@/app/hooks/useUserProfile";
 import { Button, IconButton, Modal, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -25,8 +25,22 @@ const SmallAvatar = (
 
 export default function Home({ params }: { params: { accountID: string } }) {
   const accountID = params.accountID;
-  const { userProfile, todayUserProfileFetching } = useUserProfile(accountID);
+  const { userProfile, todayUserProfileFetching, updateUserName } =
+    useUserProfile(accountID);
   const [isEditingName, setIsEditingName] = useState(false);
+  const [newName, setNewName] = useState<string>("");
+
+  useEffect(() => {
+    if (userProfile) {
+      setNewName(userProfile.name);
+    }
+  }, [userProfile]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // デフォルトのフォーム送信を無効化
+    await updateUserName(newName); // ユーザー名を更新
+    setIsEditingName(false); // モーダルを閉じる
+  };
 
   if (todayUserProfileFetching) {
     return <main>Loading...</main>;
@@ -64,14 +78,16 @@ export default function Home({ params }: { params: { accountID: string } }) {
         aria-describedby="modal-modal-description"
       >
         <Box sx={modalStyle}>
-          <form action="update">
+          <form onSubmit={handleSubmit}>
             <Box display={"flex"} flexDirection={"column"} gap={"20px"}>
               <TextField
-                id="outlined-basic"
+                id="newName"
                 variant="outlined"
                 fullWidth
                 label="ユーザネーム"
-                defaultValue={userProfile.name}
+                name="newName"
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
                 sx={{
                   // 入力値にフォントを適用
                   "& .MuiOutlinedInput-root": { fontFamily: "var(--font)" },
@@ -158,8 +174,8 @@ export default function Home({ params }: { params: { accountID: string } }) {
 
         <div className={styles.week_asagohan}>
           <div className={styles.scroll}>
-            {userProfile.thisWeekAsagohans.map((thisWeekAsagohan) => (
-              <div key={thisWeekAsagohan.imagePath} className={styles.profile2}>
+            {userProfile.thisWeekAsagohans.map((thisWeekAsagohan, index) => (
+              <div key={index} className={styles.profile2}>
                 <Image
                   src={thisWeekAsagohan.imagePath}
                   alt={"WeeklyAsagohan"}

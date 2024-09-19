@@ -31,8 +31,21 @@ const useUserProfile = (accountID: string) => {
 
   const updateUserName = async (newName: string) => {
     if (userProfile) {
-      const updatedUserProfile = { ...userProfile, name: newName };
-      setUserProfile(updatedUserProfile);
+      const res = await fetch(
+        `http://localhost:3000/api/user/${accountID}/name`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: newName }),
+        }
+      );
+      if (!res.ok) {
+        throw new Error("Failed to update user name");
+      } else {
+        location.reload();
+      }
     } else {
       console.error("このユーザーは存在しません");
     }
