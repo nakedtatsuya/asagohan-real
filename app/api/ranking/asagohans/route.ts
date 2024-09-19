@@ -57,27 +57,20 @@ export async function GET(_: Request) {
   // いいね数でソート
   const sortedData = data.sort((a, b) => b.likes.length - a.likes.length);
 
-  // ランキングを付ける
-  const rankedData = sortedData.map((asagohan, index) => {
-    if (index < 3) {
-      return { ...asagohan, ranking: index + 1 };
-    } else {
-      return { ...asagohan, ranking: null };
-    }
-  });
-
   // 上位3位のみを取得
-  const asagohans = rankedData.slice(0, 3).map((asagohan) => ({
-    title: asagohan.title,
-    imagePath: `${publicAsagohanURL}${asagohan.id}.png`,
-    likes: asagohan.likes.length,
-    user: {
-      name: asagohan.user.name,
-      accountID: asagohan.user.account_id,
-      userIconPath: `${publicUserIconURL}${asagohan.user.id}.png`,
-    },
-    ranking: asagohan.ranking,
-  }));
+  const asagohans: RankingAsagohan[] = sortedData
+    .slice(0, 3)
+    .map((asagohan, index) => ({
+      title: asagohan.title,
+      imagePath: `${publicAsagohanURL}${asagohan.id}.png`,
+      likes: asagohan.likes.length,
+      user: {
+        name: asagohan.user.name,
+        accountID: asagohan.user.account_id,
+        userIconPath: `${publicUserIconURL}${asagohan.user.id}.png`,
+      },
+      ranking: index + 1,
+    }));
 
   return Response.json({ data: asagohans });
 }
