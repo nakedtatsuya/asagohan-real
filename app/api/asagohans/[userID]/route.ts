@@ -29,7 +29,6 @@ export async function GET(
   { params }: { params: { userID: string } }
 ) {
   const userID = params.userID;
-  console.log(userID);
 
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
@@ -37,8 +36,6 @@ export async function GET(
   const todayEnd = new Date();
   todayEnd.setHours(11, 59, 59, 999); // 今日の終了時刻 (11:59:59)
 
-  console.log(todayStart.toISOString());
-  console.log(todayEnd.toISOString());
   const { data, error } = await supabase
     .from("asagohans")
     .select(
@@ -54,8 +51,6 @@ export async function GET(
     .gte("created_at", todayStart.toISOString()) // 今日の開始時刻以降
     .lte("created_at", todayEnd.toISOString()) // 今日の終了時刻以前
     .returns<AsagohanResponse[]>();
-
-  console.log(data);
 
   if (error) {
     return new Response(`Internal Server Error: ${error.message}`, {
@@ -93,6 +88,8 @@ export async function GET(
     }
   });
 
+  const removeHyphen = (id: string) => id.replace(/-/g, "");
+
   const asagohans: Asagohan[] = data.map((asagohan) => ({
     id: asagohan.id,
     createdAt: formatCreatedAtDate(asagohan.created_at),
@@ -104,15 +101,19 @@ export async function GET(
       content: comment.content,
       createdAt: formatCreatedAtDate(comment.created_at),
       user: {
+        id: comment.user.id,
         name: comment.user.name,
         accountID: comment.user.account_id,
-        userIconPath: `${publicUserIconURL}${comment.user.id}.png`,
+        userIconPath: `${publicUserIconURL}${removeHyphen(
+          comment.user.id
+        )}.png`,
       },
     })),
     user: {
+      id: asagohan.user.id,
       name: asagohan.user.name,
       accountID: asagohan.user.account_id,
-      userIconPath: `${publicUserIconURL}${asagohan.user.id}.png`,
+      userIconPath: `${publicUserIconURL}${removeHyphen(asagohan.user.id)}.png`,
     },
     ranking:
       rankedData.find((ranked) => ranked.id === asagohan.id)?.ranking || null,

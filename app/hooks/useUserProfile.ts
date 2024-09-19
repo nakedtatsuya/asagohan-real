@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import type { UserProfile } from "@/app/types/User";
+import supabase from "../supabase";
 
 const useUserProfile = (accountID: string) => {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
@@ -51,7 +52,29 @@ const useUserProfile = (accountID: string) => {
     }
   };
 
-  return { userProfile, todayUserProfileFetching: fetching, updateUserName };
+  // 画像の更新処理を追加
+  const updateUserIcon = async (newIcon: File) => {
+    if (userProfile) {
+      const removeHyphen = (id: string) => id.replace(/-/g, "");
+
+      const { error } = await supabase.storage
+        .from("user_icons")
+        .update(`${removeHyphen(userProfile.id)}.png`, newIcon);
+      if (error) {
+        throw new Error("Failed to update user icon");
+      }
+      location.reload();
+    } else {
+      console.error("このユーザーは存在しません");
+    }
+  };
+
+  return {
+    userProfile,
+    todayUserProfileFetching: fetching,
+    updateUserName,
+    updateUserIcon,
+  };
 };
 
 export default useUserProfile;

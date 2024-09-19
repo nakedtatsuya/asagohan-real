@@ -7,7 +7,7 @@ const useTodayAsagohans = (userID: string) => {
   const [fetching, setFetching] = useState(false);
 
   const getTodayAsagohans = async (userID: string): Promise<Asagohan[]> => {
-    const res = await fetch(`http://localhost:3000/api/asagohans/${userID}`);
+    const res = await fetch(`/api/asagohans/${userID}`);
     if (!res.ok) {
       throw new Error("Failed to fetch data");
     }
@@ -37,7 +37,6 @@ const useTodayAsagohans = (userID: string) => {
     if (asagohans) {
       const updatedAsagohans = asagohans.map((asagohan) => {
         if (asagohan.id === asagohanID) {
-          console.log(asagohan);
           return { ...asagohan, isLiked: newIsLiked, likes: newLikes };
         }
         return asagohan;

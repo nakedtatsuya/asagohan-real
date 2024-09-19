@@ -41,6 +41,7 @@
 }
 
 .account_name {
+  padding-left: 32px;
   align-items: center;
   margin: 0%;
 }
