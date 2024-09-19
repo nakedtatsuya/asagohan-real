@@ -12,6 +12,8 @@
     /* ページ全体を画面の高さに */
 }
 
+
+
 .main {
     padding: 0 10px;
     display: flex;
@@ -29,11 +31,13 @@
     /* 横方向の中央揃え */
     align-items: center;
     flex-grow: 1;
+    margin-bottom: 145px;
+    position: fixed
 }
 
 .camera_button {
     position: absolute;
-    bottom: 40px;
+    bottom: 30px;
     transform: translateX(-50%);
     left: 50%;
     width: 80px;
