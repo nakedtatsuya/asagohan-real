@@ -6,13 +6,15 @@ import Header from "./components/Header";
 import { useState } from "react";
 import useTodayAsagohans from "@/app/hooks/useTodayAsagohans";
 import { Avatar } from "@mui/material";
+import useLike from "@/app/hooks/useLike";
 
 const testAsagohans = [
   {
     id: "1",
     createdAt: "8時30分",
     title: "test朝ごはん",
-    imagePath: "https://prkmeuqkrooltclacpzl.supabase.co/storage/v1/object/public/asagohans/2.png",
+    imagePath:
+      "https://prkmeuqkrooltclacpzl.supabase.co/storage/v1/object/public/asagohans/2.png",
     likes: 10,
     isLiked: true,
     ranking: 1,
@@ -48,8 +50,22 @@ const testAsagohans = [
 ];
 export default function Home() {
   const [userID] = useState("b2113406-aaaf-43bc-a32c-a5cc003506d7");
-  const { asagohans, todayAsagohansFetching } = useTodayAsagohans(userID);
-  console.log(asagohans, todayAsagohansFetching);
+  const [asagohanID] = useState("6");
+  const { asagohans, todayAsagohansFetching, onClickLike, setAsagohanLike } =
+    useTodayAsagohans(userID);
+
+  if (asagohans === null || todayAsagohansFetching) {
+    return <p>loading...</p>;
+  }
+
+  const onClickLikeButton = async () => {
+    const newLike = await onClickLike(asagohans[2]);
+    console.log(newLike);
+    if (newLike) {
+      setAsagohanLike(asagohans[2].id, newLike.isLiked, newLike.likes);
+    }
+  };
+
   return (
     <div className={styles.page}>
       <Header>
@@ -91,18 +107,14 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.acount}>
           <div className={styles.third}>
-            <Avatar
-              alt="投稿者イラスト"
-              src="user_image.png"
-            />
+            <Avatar alt="投稿者イラスト" src="user_image.png" />
             <p>{testAsagohans[0].user.name}</p>
           </div>
-          <p className={styles.time}>
-            ○時○分
-          </p>
+          <p className={styles.time}>○時○分</p>
         </div>
         <div className={styles.container}>
-          <Image className={styles.post}
+          <Image
+            className={styles.post}
             src="朝ごはん投稿画像.svg"
             alt="朝ごはん投稿画像"
             width={300}
@@ -112,42 +124,41 @@ export default function Home() {
         <div className={styles.forth}>
           <div className={styles.button}>
             <div className={styles.good}>
-              <Image className={styles.goodbutton}
-                src="いいねボタン.svg"
-                alt="いいねボタン画像"
-                width={25}
-                height={25}
-              />
-              <p className={styles.goodcount}>
-                xx
-              </p>
+              <button onClick={onClickLikeButton}>
+                <Image
+                  className={styles.goodbutton}
+                  src="いいねボタン.svg"
+                  alt="いいねボタン画像"
+                  width={25}
+                  height={25}
+                />
+                {asagohans[2].likes}
+                {asagohans[2].isLiked ? "いいね済み" : "いいね"}
+              </button>
+              <p className={styles.goodcount}>xx</p>
             </div>
             <div className={styles.comment}>
-              <Image className={styles.commentbutton}
+              <Image
+                className={styles.commentbutton}
                 src="コメントボタン.svg"
                 alt="コメントボタン画像"
                 width={25}
                 height={25}
               />
-              <p className={styles.commentcount}>
-                xx
-              </p>
+              <p className={styles.commentcount}>xx</p>
             </div>
           </div>
-          <p className={styles.title}>
-            今日のタイトル
-          </p>
+          <p className={styles.title}>今日のタイトル</p>
         </div>
         <div className={styles.rankingstar}>
-          <Image className={styles.star}
+          <Image
+            className={styles.star}
             src="ランキング星画像.svg"
             alt="ランキング星画像"
             width={70}
             height={70}
           />
-          <p className={styles.rankingcount}>
-            1
-          </p>
+          <p className={styles.rankingcount}>1</p>
         </div>
       </main>
     </div>

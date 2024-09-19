@@ -29,7 +29,76 @@ const useTodayAsagohans = (userID: string) => {
       });
   }, [userID]);
 
-  return { asagohans, todayAsagohansFetching: fetching };
+  const setAsagohanLike = async (
+    asagohanID: string,
+    newIsLiked: boolean,
+    newLikes: number
+  ) => {
+    if (asagohans) {
+      const updatedAsagohans = asagohans.map((asagohan) => {
+        if (asagohan.id === asagohanID) {
+          console.log(asagohan);
+          return { ...asagohan, isLiked: newIsLiked, likes: newLikes };
+        }
+        return asagohan;
+      });
+      console.log(updatedAsagohans);
+      setAsagohans([...updatedAsagohans]);
+    } else {
+      console.error("この朝ごはんは存在しません");
+    }
+  };
+
+  const onClickLike = async (asagohan: Asagohan) => {
+    const asagohanID = asagohan.id;
+    const isLiked = asagohan.isLiked;
+    const likes = asagohan.likes;
+    if (!isLiked) {
+      const res = await fetch(
+        `http://localhost:3000/api/asagohan/${asagohanID}/like`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userID: userID,
+          }),
+        }
+      );
+      if (res.status === 201) {
+        return { isLiked: true, likes: asagohan.likes + 1 };
+      } else {
+        console.error(res.statusText);
+      }
+    } else {
+      const res = await fetch(
+        `http://localhost:3000/api/asagohan/${asagohanID}/like`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userID: userID,
+          }),
+        }
+      );
+      if (res.status === 200) {
+        return { isLiked: false, likes: asagohan.likes - 1 };
+      } else {
+        console.error(res.statusText);
+      }
+      return { isLiked, likes };
+    }
+  };
+
+  return {
+    asagohans,
+    todayAsagohansFetching: fetching,
+    setAsagohanLike,
+    onClickLike,
+  };
 };
 
 export default useTodayAsagohans;
