@@ -7,7 +7,7 @@ export async function PUT(
   const accountID = params.accountID;
   const { name } = await request.json();
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("users")
     .update({ name })
     .eq("account_id", accountID);
