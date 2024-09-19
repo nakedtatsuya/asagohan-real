@@ -8,7 +8,7 @@ import { CommonProps } from "@mui/material/OverridableComponent";
 import { JSX, ElementType } from "react";
 
 // SmallAvatar の定義
-const SmallAvatar = (props: JSX.IntrinsicAttributes & { component: ElementType<any, keyof JSX.IntrinsicElements>; } & AvatarOwnProps & AvatarSlotsAndSlotProps & CommonProps) => (
+const SmallAvatar = (props: JSX.IntrinsicAttributes & { component: ElementType<JSX.Element, keyof JSX.IntrinsicElements>; } & AvatarOwnProps & AvatarSlotsAndSlotProps & CommonProps) => (
   <Avatar
     {...props}
     sx={{ width: 40, height: 40 }}
