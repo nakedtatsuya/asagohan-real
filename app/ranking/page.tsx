@@ -3,12 +3,10 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "@/app/components/Header";
-import { useState } from "react";
 import { Avatar } from "@mui/material";
 import useRankingAsagohans from "../hooks/useRankingAsagohans";
 
 export default function Home() {
-  const [userID] = useState("b2113406-aaaf-43bc-a32c-a5cc003506d7");
   const { asagohans, rankingAsagohansFetching } = useRankingAsagohans();
   console.log(asagohans, rankingAsagohansFetching);
 
