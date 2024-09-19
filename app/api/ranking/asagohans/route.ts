@@ -14,7 +14,7 @@ interface AsagohanResponse {
   };
 }
 
-export async function GET(_: Request) {
+export async function GET() {
   const todayStart = new Date();
   todayStart.setHours(0, 0, 0, 0); // 今日の開始時刻 (00:00:00)
 
