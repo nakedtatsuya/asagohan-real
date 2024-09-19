@@ -40,7 +40,7 @@ export default function Home() {
     // Open modal manually
     const handleOpen = () => {
         setOpen(true);
-    };
+    };      
 
     // Close modal
     const handleClose = () => {
