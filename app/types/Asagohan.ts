@@ -13,7 +13,12 @@ export default interface Asagohan {
   ranking: number | null;
 }
 
-export interface UserBestAsagohan extends Pick<Asagohan, "id" | "imagePath"> {}
+export interface UserBestAsagohan {
+  id: string;
+  imagePath: string;
+}
 
-export interface UserThisWeekAsagohan
-  extends Pick<Asagohan, "createdAt" | "imagePath"> {}
+export interface UserThisWeekAsagohan {
+  createdAt: string;
+  imagePath: string;
+}
