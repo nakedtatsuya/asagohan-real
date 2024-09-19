@@ -28,12 +28,14 @@ export default function Home() {
     onClickLike(asagohan)
   };
 
-  const [open, setOpen] = React.useState(false);
+  // const [open, setOpen] = React.useState(false);
+  const [selectedAsagohan, setSelectedAsagohan] = useState<Asagohan | null>(null);
   const [comment, setComment] = React.useState('');
 
-  const toggleDrawer = (open: boolean) => () => {
-    setOpen(open);
-  };
+  const drawerIsOpen = selectedAsagohan !== null
+  console.log(drawerIsOpen)
+
+  console.log(selectedAsagohan)
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
@@ -86,73 +88,73 @@ export default function Home() {
         </div>
       </Header>
       <main className={styles.main}>
+        <Drawer
+          anchor="bottom"
+          open={drawerIsOpen}
+          onClose={() => setSelectedAsagohan(null)}
+        >
+          <div className={styles.drawer}
+            role="presentation">
+            {selectedAsagohan && selectedAsagohan.comments.map(comment => {
+              return (
+                <div className={styles.usercomment}>
+                  <div className={styles.useravatar}>
+                    <Avatar
+                      alt="コメント者イラスト"
+                      src={comment.user.userIconPath}
+                    />
+                  </div>
+                  <div className={styles.timecomment}>
+                    <p style={{ marginTop: "0", marginBottom: "0" }}>
+                      <span style={{ color: '#402011' }}>
+                        {comment.user.name}
+                      </span>
+                      <span style={{ color: '#605b58', paddingLeft: "10px" }}>
+                        {comment.createdAt}
+                      </span>
+                    </p>
+                    <p style={{ color: '#402011', marginTop: "0", marginBottom: "0" }}>
+                      {comment.content}
+                    </p>
+                  </div>
+                </div>
+              )
+            })}
+            <div className={styles.commentpush}>
+              <Box
+                component="form"
+                sx={{
+                  '& .MuiTextField-root': { m: 1, width: '25ch' }
+                }}
+                noValidate
+                autoComplete="off"
+              />
+              <TextField
+                label="コメントを入力..."
+                id="outlined-size-small"
+                fullWidth
+                sx={{
+                  // 入力値にフォントを適用
+                  "& .MuiOutlinedInput-root": { fontFamily: "var(--font)" },
+                  "& input": {
+                    color: "var(--primary)",
+                  },
+                  "& label": {
+                    fontFamily: "var(--font)",
+                  },
+                }}
+              />
+              <Stack direction="row" spacing={2}>
+                <Button variant="contained" endIcon={<SendIcon />}>
+                  Send
+                </Button>
+              </Stack>
+            </div>
+          </div>
+        </Drawer>
         {asagohans?.map((asagohan, index) => {
           return (
             <div key={index} className={styles.userpush}>
-              <Drawer
-                anchor="bottom"
-                open={open}
-                onClose={toggleDrawer(false)}
-              >
-                <div className={styles.drawer}
-                  role="presentation">
-                  {asagohan.comments.map(comment => {
-                    return (
-                      <div className={styles.usercomment}>
-                        <div className={styles.useravatar}>
-                          <Avatar
-                            alt="コメント者イラスト"
-                            src={asagohan.user.userIconPath}
-                          />
-                        </div>
-                        <div className={styles.timecomment}>
-                          <p style={{ marginTop: "0", marginBottom: "0" }}>
-                            <span style={{ color: '#402011' }}>
-                              {comment.user.name}
-                            </span>
-                            <span style={{ color: '#605b58', paddingLeft: "10px" }}>
-                              {comment.createdAt}
-                            </span>
-                          </p>
-                          <p style={{ color: '#402011', marginTop: "0", marginBottom: "0" }}>
-                            {/* {asagohan.comments[0].content} */}
-                          </p>
-                        </div>
-                      </div>
-                    )
-                  })}
-                  <div className={styles.commentpush}>
-                    <Box
-                      component="form"
-                      sx={{
-                        '& .MuiTextField-root': { m: 1, width: '25ch' }
-                      }}
-                      noValidate
-                      autoComplete="off"
-                    />
-                    <TextField
-                      label="コメントを入力..."
-                      id="outlined-size-small"
-                      fullWidth
-                      sx={{
-                        // 入力値にフォントを適用
-                        "& .MuiOutlinedInput-root": { fontFamily: "var(--font)" },
-                        "& input": {
-                          color: "var(--primary)",
-                        },
-                        "& label": {
-                          fontFamily: "var(--font)",
-                        },
-                      }}
-                    />
-                    <Stack direction="row" spacing={2}>
-                      <Button variant="contained" endIcon={<SendIcon />}>
-                        Send
-                      </Button>
-                    </Stack>
-                  </div>
-                </div>
-              </Drawer>
               <div className={styles.acount}>
                 <div className={styles.third}>
                   <Avatar
@@ -186,7 +188,7 @@ export default function Home() {
                       {asagohan.likes}
                     </p>
                   </div>
-                  <div onClick={toggleDrawer(true)} style={{ cursor: 'pointer' }}>
+                  <div onClick={() => setSelectedAsagohan(asagohan)} style={{ cursor: 'pointer' }}>
                     <div className={styles.comment}>
                       <Image className={styles.commentbutton}
                         src="コメントボタン.svg"
