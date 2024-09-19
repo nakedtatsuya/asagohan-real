@@ -6,7 +6,6 @@ import Header from "./components/Header";
 import { useState } from "react";
 import useTodayAsagohans from "@/app/hooks/useTodayAsagohans";
 import { Avatar } from "@mui/material";
-import useLike from "@/app/hooks/useLike";
 
 const testAsagohans = [
   {
@@ -50,21 +49,12 @@ const testAsagohans = [
 ];
 export default function Home() {
   const [userID] = useState("b2113406-aaaf-43bc-a32c-a5cc003506d7");
-  const [asagohanID] = useState("6");
-  const { asagohans, todayAsagohansFetching, onClickLike, setAsagohanLike } =
+  const { asagohans, todayAsagohansFetching, onClickLike } =
     useTodayAsagohans(userID);
 
   if (asagohans === null || todayAsagohansFetching) {
     return <p>loading...</p>;
   }
-
-  const onClickLikeButton = async () => {
-    const newLike = await onClickLike(asagohans[2]);
-    console.log(newLike);
-    if (newLike) {
-      setAsagohanLike(asagohans[2].id, newLike.isLiked, newLike.likes);
-    }
-  };
 
   return (
     <div className={styles.page}>
@@ -124,7 +114,7 @@ export default function Home() {
         <div className={styles.forth}>
           <div className={styles.button}>
             <div className={styles.good}>
-              <button onClick={onClickLikeButton}>
+              <button onClick={() => onClickLike(asagohans[2])}>
                 <Image
                   className={styles.goodbutton}
                   src="いいねボタン.svg"

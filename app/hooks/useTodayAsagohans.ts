@@ -42,7 +42,6 @@ const useTodayAsagohans = (userID: string) => {
         }
         return asagohan;
       });
-      console.log(updatedAsagohans);
       setAsagohans([...updatedAsagohans]);
     } else {
       console.error("この朝ごはんは存在しません");
@@ -54,6 +53,7 @@ const useTodayAsagohans = (userID: string) => {
     const isLiked = asagohan.isLiked;
     const likes = asagohan.likes;
     if (!isLiked) {
+      setAsagohanLike(asagohan.id, true, asagohan.likes + 1);
       const res = await fetch(
         `http://localhost:3000/api/asagohan/${asagohanID}/like`,
         {
@@ -66,12 +66,11 @@ const useTodayAsagohans = (userID: string) => {
           }),
         }
       );
-      if (res.status === 201) {
-        return { isLiked: true, likes: asagohan.likes + 1 };
-      } else {
+      if (res.status !== 201) {
         console.error(res.statusText);
       }
     } else {
+      setAsagohanLike(asagohan.id, false, asagohan.likes - 1);
       const res = await fetch(
         `http://localhost:3000/api/asagohan/${asagohanID}/like`,
         {
@@ -84,9 +83,7 @@ const useTodayAsagohans = (userID: string) => {
           }),
         }
       );
-      if (res.status === 200) {
-        return { isLiked: false, likes: asagohan.likes - 1 };
-      } else {
+      if (res.status !== 200) {
         console.error(res.statusText);
       }
       return { isLiked, likes };
