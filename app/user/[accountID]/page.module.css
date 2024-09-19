@@ -56,6 +56,7 @@ width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-left: 8px;
 }
 
 .iconTextContainer {
@@ -64,7 +65,7 @@ width: 100%;
   align-items: center;
   width: 100%;
   margin-bottom: 0%;
-
+  padding-left: 10px;
 }
 
 
@@ -73,14 +74,14 @@ width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 10px;
 }
 
 .profile2 {
+  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
 .date {
@@ -92,12 +93,9 @@ width: 100%;
   overflow-x: scroll;
 }
 
-.week_asagohan div {
-  margin: 10px;
-}
-
 .weeklyAsagohan{
   width: 100%;
+  margin: 0;
 }
 
 .scroll {

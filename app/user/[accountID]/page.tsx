@@ -106,15 +106,15 @@ export default function Home({ params }: { params: { accountID: string } }) {
           >
             <Avatar
               className={styles.userIcon}
-              src="/user_image.png"
-              alt={"userIcon"}
+              src={userProfile.userIconPath}
+              alt={"ユーザのアイコン画像"}
               sx={{ width: "200px", height: "200px" }}
             />
           </Badge>
         </div>
 
         <div className={styles.account_name}>
-          アカウント名
+          {userProfile.name}
           <IconButton
             onClick={() => setIsEditingName(true)}
             sx={{ width: "fit-content" }}
@@ -137,7 +137,7 @@ export default function Home({ params }: { params: { accountID: string } }) {
 
         <div className={styles.profile1}>
           <Image
-            src="/breakfast_image.png"
+            src={userProfile.bestAsagohan.imagePath}
             alt={"AsagohanPicture"}
             height={100}
             width={150}
@@ -158,75 +158,17 @@ export default function Home({ params }: { params: { accountID: string } }) {
 
         <div className={styles.week_asagohan}>
           <div className={styles.scroll}>
-            <div className={styles.profile2}>
-              <Image
-                src="/breakfast_image.png"
-                alt={"WeeklyAsagohan"}
-                height={100}
-                width={150}
-              />
-              <div className={styles.date}>○月○日</div>
-            </div>
-
-            <div className={styles.profile2}>
-              <Image
-                src="/breakfast_image.png"
-                alt={"WeeklyAsagohan"}
-                height={100}
-                width={150}
-              />
-              <div className={styles.date}>○月○日</div>
-            </div>
-
-            <div className={styles.profile2}>
-              <Image
-                src="/breakfast_image.png"
-                alt={"WeeklyAsagohan"}
-                height={100}
-                width={150}
-              />
-              <div className={styles.date}>○月○日</div>
-            </div>
-
-            <div className={styles.profile2}>
-              <Image
-                src="/breakfast_image.png"
-                alt={"WeeklyAsagohan"}
-                height={100}
-                width={150}
-              />
-              <div className={styles.date}>○月○日</div>
-            </div>
-
-            <div className={styles.profile2}>
-              <Image
-                src="/breakfast_image.png"
-                alt={"WeeklyAsagohan"}
-                height={100}
-                width={150}
-              />
-              <div className={styles.date}>○月○日</div>
-            </div>
-
-            <div className={styles.profile2}>
-              <Image
-                src="/breakfast_image.png"
-                alt={"WeeklyAsagohan"}
-                height={100}
-                width={150}
-              />
-              <div className={styles.date}>○月○日</div>
-            </div>
-
-            <div className={styles.profile2}>
-              <Image
-                src="/breakfast_image.png"
-                alt={"WeeklyAsagohan"}
-                height={100}
-                width={150}
-              />
-              <div className={styles.date}>○月○日</div>
-            </div>
+            {userProfile.thisWeekAsagohans.map((thisWeekAsagohan) => (
+              <div key={thisWeekAsagohan.imagePath} className={styles.profile2}>
+                <Image
+                  src={thisWeekAsagohan.imagePath}
+                  alt={"WeeklyAsagohan"}
+                  height={100}
+                  width={150}
+                />
+                <div className={styles.date}>{thisWeekAsagohan.createdAt}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
