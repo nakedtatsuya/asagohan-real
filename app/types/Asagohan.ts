@@ -22,3 +22,11 @@ export interface UserThisWeekAsagohan {
   createdAt: string;
   imagePath: string;
 }
+
+export interface RankingAsagohan {
+  title: string;
+  imagePath: string;
+  likes: number;
+  user: User;
+  ranking: number;
+}
