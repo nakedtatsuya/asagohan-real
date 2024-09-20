@@ -42,11 +42,11 @@ const useUserAuth = () => {
   }, []);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      console.log("Authenticated");
-    } else {
-      window.location.href = "/login";
-    }
+    // if (isAuthenticated) {
+    //   console.log("Authenticated");
+    // } else {
+    //   window.location.href = "/login";
+    // }
   }, [isAuthenticated]);
 
   return { userID, authLoading: loading };
