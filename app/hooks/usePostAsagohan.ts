@@ -7,7 +7,7 @@ const usePostAsagohan = (userID: string) => {
 
   const postAsagohan = async (title: string, image: File) => {
     setSending(true);
-    const res = await fetch(`http://localhost:3000/api/asagohan/new`, {
+    const res = await fetch(`/api/asagohan/new`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
