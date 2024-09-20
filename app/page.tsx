@@ -122,8 +122,6 @@ export default function Home() {
             }) : <div className={styles.usercomment}></div>}
             <div className={styles.commentpush}>
               <Box
-                position= "fixed"
-                left= '20px'
                 component="form"
                 sx={{
                   '& .MuiTextField-root': { m: 1, width: '25ch' }
@@ -152,7 +150,10 @@ export default function Home() {
                 <Button 
                 variant="contained" 
                 endIcon={<SendIcon />}
-                sx={{ Left: '70px',bottom: '25px' }}
+                sx={{ 
+                  position: "fixed",
+                  right: '30px',
+                  bottom: '20px' }}
                 >
                   Send
                 </Button>
