@@ -7,6 +7,8 @@ const useUserAuth = () => {
   const [userID, setUserID] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
+  console.log(userID);
+
   const checkUserAuth = async () => {
     try {
       const { data, error } = await supabase.auth.getSession();
@@ -42,12 +44,14 @@ const useUserAuth = () => {
   }, []);
 
   useEffect(() => {
-    // if (isAuthenticated) {
-    //   console.log("Authenticated");
-    // } else {
-    //   window.location.href = "/login";
-    // }
-  }, [isAuthenticated]);
+    if (!loading) {
+      if (isAuthenticated) {
+        console.log("Authenticated");
+      } else {
+        window.location.href = "/login";
+      }
+    }
+  }, [isAuthenticated, loading]);
 
   return { userID, authLoading: loading };
 };
