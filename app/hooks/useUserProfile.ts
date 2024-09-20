@@ -54,6 +54,7 @@ const useUserProfile = (accountID: string) => {
     if (userProfile) {
       const removeHyphen = (id: string) => id.replace(/-/g, "");
 
+      console.log(`${removeHyphen(userProfile.id)}.png`);
       const { error } = await supabase.storage
         .from("user_icons")
         .update(`${removeHyphen(userProfile.id)}.png`, newIcon);
