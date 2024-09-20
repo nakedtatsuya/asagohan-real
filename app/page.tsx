@@ -4,20 +4,27 @@ import Image from "next/image";
 import Link from "next/link";
 import Header from "./components/Header";
 import useTodayAsagohans from "@/app/hooks/useTodayAsagohans";
-import { Avatar, colors } from "@mui/material";
-import * as React from 'react';
-import Drawer from '@mui/material/Drawer';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import SendIcon from '@mui/icons-material/Send';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
+import { Avatar } from "@mui/material";
+import * as React from "react";
+import Drawer from "@mui/material/Drawer";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import SendIcon from "@mui/icons-material/Send";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
 import Asagohan from "./types/Asagohan";
 import useUserAuth from "./hooks/useUserAuth";
+import { useState } from "react";
 
 export default function Home() {
   const { userID, authLoading } = useUserAuth();
-  const { asagohans, todayAsagohansFetching, onClickLike } = useTodayAsagohans(userID || "");
+  const { asagohans, todayAsagohansFetching, onClickLike } = useTodayAsagohans(
+    userID || ""
+  );
+  const [selectedAsagohan, setSelectedAsagohan] = useState<Asagohan | null>(
+    null
+  );
+  const [comment, setComment] = React.useState("");
 
   if (authLoading || todayAsagohansFetching) {
     return <main>Loading...</main>;
@@ -26,23 +33,20 @@ export default function Home() {
     return <main>本日の朝ごはんはまだ投稿されていません</main>;
   }
 
-
   // const [flag, setFlag] = useState(false); // 初期値はfalse
   // console.log(flag);
 
   const handleClick = (asagohan: Asagohan) => {
     console.log("クリックされました");
-    onClickLike(asagohan)
+    onClickLike(asagohan);
   };
 
   // const [open, setOpen] = React.useState(false);
-  const [selectedAsagohan, setSelectedAsagohan] = useState<Asagohan | null>(null);
-  const [comment, setComment] = React.useState('');
 
-  const drawerIsOpen = selectedAsagohan !== null
-  console.log(drawerIsOpen)
+  const drawerIsOpen = selectedAsagohan !== null;
+  console.log(drawerIsOpen);
 
-  console.log(selectedAsagohan)
+  console.log(selectedAsagohan);
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setComment(event.target.value);
@@ -52,7 +56,7 @@ export default function Home() {
     if (comment.trim()) {
       // コメントの処理（例えば、APIに送信など）
       console.log(comment);
-      setComment(''); // 入力欄をクリア
+      setComment(""); // 入力欄をクリア
     }
   };
 
@@ -100,38 +104,47 @@ export default function Home() {
           open={drawerIsOpen}
           onClose={() => setSelectedAsagohan(null)}
         >
-          <div className={styles.drawer}
-            role="presentation">
-            {selectedAsagohan ? selectedAsagohan.comments.map(comment => {
-              return (
-                <div className={styles.usercomment}>
-                  <div className={styles.useravatar}>
-                    <Avatar
-                      alt="コメント者イラスト"
-                      src={comment.user.userIconPath}
-                    />
+          <div className={styles.drawer} role="presentation">
+            {selectedAsagohan ? (
+              selectedAsagohan.comments.map((comment) => {
+                return (
+                  <div className={styles.usercomment}>
+                    <div className={styles.useravatar}>
+                      <Avatar
+                        alt="コメント者イラスト"
+                        src={comment.user.userIconPath}
+                      />
+                    </div>
+                    <div className={styles.timecomment}>
+                      <p style={{ marginTop: "0", marginBottom: "0" }}>
+                        <span style={{ color: "#402011" }}>
+                          {comment.user.name}
+                        </span>
+                        <span style={{ color: "#605b58", paddingLeft: "10px" }}>
+                          {comment.createdAt}
+                        </span>
+                      </p>
+                      <p
+                        style={{
+                          color: "#402011",
+                          marginTop: "0",
+                          marginBottom: "0",
+                        }}
+                      >
+                        {comment.content}
+                      </p>
+                    </div>
                   </div>
-                  <div className={styles.timecomment}>
-                    <p style={{ marginTop: "0", marginBottom: "0" }}>
-                      <span style={{ color: '#402011' }}>
-                        {comment.user.name}
-                      </span>
-                      <span style={{ color: '#605b58', paddingLeft: "10px" }}>
-                        {comment.createdAt}
-                      </span>
-                    </p>
-                    <p style={{ color: '#402011', marginTop: "0", marginBottom: "0" }}>
-                      {comment.content}
-                    </p>
-                  </div>
-                </div>
-              )
-            }) : <div className={styles.usercomment}></div>}
+                );
+              })
+            ) : (
+              <div className={styles.usercomment}></div>
+            )}
             <div className={styles.commentpush}>
               <Box
                 component="form"
                 sx={{
-                  '& .MuiTextField-root': { m: 1, width: '25ch' }
+                  "& .MuiTextField-root": { m: 1, width: "25ch" },
                 }}
                 noValidate
                 autoComplete="off"
@@ -150,17 +163,18 @@ export default function Home() {
                     fontFamily: "var(--font)",
                   },
                   position: "fixed",
-                  bottom: '20px',
+                  bottom: "20px",
                 }}
               />
               <Stack direction="row" spacing={2}>
-                <Button 
-                variant="contained" 
-                endIcon={<SendIcon />}
-                sx={{ 
-                  position: "fixed",
-                  right: '30px',
-                  bottom: '20px' }}
+                <Button
+                  variant="contained"
+                  endIcon={<SendIcon />}
+                  sx={{
+                    position: "fixed",
+                    right: "30px",
+                    bottom: "20px",
+                  }}
                 >
                   Send
                 </Button>
@@ -179,12 +193,11 @@ export default function Home() {
                   />
                   <p>{asagohan.user.name}</p>
                 </div>
-                <p className={styles.time}>
-                  {asagohan.createdAt}
-                </p>
+                <p className={styles.time}>{asagohan.createdAt}</p>
               </div>
               <div className={styles.container}>
-                <Image className={styles.post}
+                <Image
+                  className={styles.post}
                   src={asagohan.imagePath}
                   alt="朝ごはん投稿画像"
                   width={319}
@@ -194,19 +207,27 @@ export default function Home() {
               <div className={styles.forth}>
                 <div className={styles.button}>
                   <div className={styles.good}>
-                    <Image onClick={() => handleClick(asagohan)} className={styles.goodbutton}
-                      src={asagohan.isLiked ? "いいね後のボタン.svg" : "いいね前のボタン.svg"}
+                    <Image
+                      onClick={() => handleClick(asagohan)}
+                      className={styles.goodbutton}
+                      src={
+                        asagohan.isLiked
+                          ? "いいね後のボタン.svg"
+                          : "いいね前のボタン.svg"
+                      }
                       alt="いいね前のボタン画像"
                       width={25}
                       height={25}
                     />
-                    <p className={styles.goodcount}>
-                      {asagohan.likes}
-                    </p>
+                    <p className={styles.goodcount}>{asagohan.likes}</p>
                   </div>
-                  <div onClick={() => setSelectedAsagohan(asagohan)} style={{ cursor: 'pointer' }}>
+                  <div
+                    onClick={() => setSelectedAsagohan(asagohan)}
+                    style={{ cursor: "pointer" }}
+                  >
                     <div className={styles.comment}>
-                      <Image className={styles.commentbutton}
+                      <Image
+                        className={styles.commentbutton}
                         src="コメントボタン.svg"
                         alt="コメントボタン画像"
                         width={25}
@@ -218,25 +239,22 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <p className={styles.title}>
-                  {asagohan.title}
-                </p>
+                <p className={styles.title}>{asagohan.title}</p>
               </div>
               <div className={styles.rankingstar}>
-                <Image className={styles.star}
+                <Image
+                  className={styles.star}
                   src="ランキング星画像.svg"
                   alt="ランキング星画像"
                   width={70}
                   height={70}
                 />
-                <p className={styles.rankingcount}>
-                  {asagohan.ranking}
-                </p>
+                <p className={styles.rankingcount}>{asagohan.ranking}</p>
               </div>
             </div>
-          )
+          );
         })}
       </main>
-    </div >
+    </div>
   );
 }
