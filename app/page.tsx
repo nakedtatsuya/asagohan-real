@@ -25,7 +25,6 @@ export default function Home() {
   const [selectedAsagohan, setSelectedAsagohan] = useState<Asagohan | null>(
     null
   );
-  const [comment, setComment] = React.useState("");
 
   if (authLoading || todayAsagohansFetching) {
     return <Loading />;
