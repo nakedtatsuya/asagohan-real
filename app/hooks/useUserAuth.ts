@@ -5,10 +5,23 @@ import supabase from "../supabase";
 const useUserAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userID, setUserID] = useState<string | null>(null);
-  const [accountID, setAccountID] = useState<string | null>("yuka1120");
+  const [accountID, setAccountID] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(userID);
+  const fetchAccountID = async (loginUserID: string) => {
+    try {
+      const res = await fetch(`/api/user/auth/${loginUserID}`);
+      if (!res.ok) {
+        setAccountID(null);
+        throw new Error("Failed to fetch data");
+      }
+      const data = await res.json();
+      setAccountID(data);
+    } catch (error) {
+      console.error("Error fetching accountID:", error);
+      setAccountID(null);
+    }
+  };
 
   const checkUserAuth = async () => {
     try {
@@ -23,6 +36,7 @@ const useUserAuth = () => {
         if (userData && userData.id) {
           setIsAuthenticated(true);
           setUserID(userData.id);
+          await fetchAccountID(userData.id);
         } else {
           setIsAuthenticated(false);
           setUserID(null);
