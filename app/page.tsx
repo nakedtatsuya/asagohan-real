@@ -3,16 +3,17 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "./components/Header";
-import { useState } from "react";
 import useTodayAsagohans from "@/app/hooks/useTodayAsagohans";
 import { Avatar } from "@mui/material";
+import useUserAuth from "./hooks/useUserAuth";
 
 const testAsagohans = [
   {
     id: "1",
     createdAt: "8時30分",
     title: "test朝ごはん",
-    imagePath: "https://prkmeuqkrooltclacpzl.supabase.co/storage/v1/object/public/asagohans/2.png",
+    imagePath:
+      "https://prkmeuqkrooltclacpzl.supabase.co/storage/v1/object/public/asagohans/2.png",
     likes: 10,
     isLiked: true,
     ranking: 1,
@@ -47,9 +48,16 @@ const testAsagohans = [
   },
 ];
 export default function Home() {
-  const [userID] = useState("b2113406-aaaf-43bc-a32c-a5cc003506d7");
-  const { asagohans, todayAsagohansFetching } = useTodayAsagohans(userID);
-  console.log(asagohans, todayAsagohansFetching);
+  const { userID, authLoading } = useUserAuth();
+  const { asagohans, todayAsagohansFetching } = useTodayAsagohans(userID || "");
+
+  if (authLoading || todayAsagohansFetching) {
+    return <main>Loading...</main>;
+  }
+  if (!asagohans || asagohans.length === 0) {
+    return <main>本日の朝ごはんはまだ投稿されていません</main>;
+  }
+
   return (
     <div className={styles.page}>
       <Header>

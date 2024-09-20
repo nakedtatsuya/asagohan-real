@@ -13,6 +13,7 @@ import { JSX, ElementType, useState, useEffect } from "react";
 import useUserProfile from "@/app/hooks/useUserProfile";
 import { Button, IconButton, Modal, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
+import useUserAuth from "@/app/hooks/useUserAuth";
 
 // SmallAvatar の定義
 const SmallAvatar = (
@@ -25,6 +26,7 @@ const SmallAvatar = (
 
 export default function Home({ params }: { params: { accountID: string } }) {
   const accountID = params.accountID;
+  const { authLoading } = useUserAuth();
   const {
     userProfile,
     todayUserProfileFetching,
@@ -68,7 +70,7 @@ export default function Home({ params }: { params: { accountID: string } }) {
     setNewIconPath(URL.createObjectURL(file));
   };
 
-  if (todayUserProfileFetching) {
+  if (authLoading || todayUserProfileFetching) {
     return <main>Loading...</main>;
   }
   if (!userProfile) {
@@ -90,7 +92,9 @@ export default function Home({ params }: { params: { accountID: string } }) {
   return (
     <main className={styles.main}>
       <Header>
-        <Link className={styles.arrow} href={"/"} >←</Link>
+        <Link className={styles.arrow} href={"/"}>
+          ←
+        </Link>
         <h1 className={styles.h1}>ユーザプロフィール</h1>
         <div></div>
       </Header>
