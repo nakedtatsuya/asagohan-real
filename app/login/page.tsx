@@ -41,7 +41,7 @@ export default function Home() {
       setSuccessMessage(""); // 成功メッセージはクリア
     } else {
       setErrorMessage(""); // エラーメッセージはクリア
-      setSuccessMessage("ログインに成功しました！");
+      window.history.back();
     }
   };
 
