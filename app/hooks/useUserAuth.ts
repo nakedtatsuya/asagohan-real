@@ -5,6 +5,7 @@ import supabase from "../supabase";
 const useUserAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userID, setUserID] = useState<string | null>(null);
+  const [accountID, setAccountID] = useState<string | null>("yuka1120");
   const [loading, setLoading] = useState(true);
 
   console.log(userID);
@@ -53,7 +54,7 @@ const useUserAuth = () => {
     }
   }, [isAuthenticated, loading]);
 
-  return { userID, authLoading: loading };
+  return { userID, accountID, authLoading: loading };
 };
 
 export default useUserAuth;

@@ -17,7 +17,7 @@ import useUserAuth from "./hooks/useUserAuth";
 import { useState } from "react";
 
 export default function Home() {
-  const { userID, authLoading } = useUserAuth();
+  const { userID, accountID, authLoading } = useUserAuth();
   const { asagohans, todayAsagohansFetching, onClickLike } = useTodayAsagohans(
     userID || ""
   );
@@ -87,7 +87,7 @@ export default function Home() {
               height={50}
             />
           </Link>
-          <Link href={"/user/1"}>
+          <Link href={`user/${accountID}`}>
             <Image
               className={styles.profile}
               src="プロフィール画像.svg"
