@@ -112,7 +112,7 @@ export default function Home() {
     setSelectedImage(URL.createObjectURL(file));
   };
 
-  if (loading || userSending) {
+  if (loading) {
     return <Loading />;
   }
 
@@ -202,7 +202,7 @@ export default function Home() {
         <button
           type="submit"
           className={styles.button}
-          disabled={!isButtonEnabled}
+          disabled={!isButtonEnabled || userSending}
         >
           新規登録
         </button>
