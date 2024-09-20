@@ -12,7 +12,7 @@ const usePostUser = () => {
     userIcon: File
   ) => {
     setSending(true);
-    const res = await fetch(`http://localhost:3000/api/user/new`, {
+    const res = await fetch(`/api/user/new`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
