@@ -1,6 +1,7 @@
 import type { UserBestAsagohan, UserThisWeekAsagohan } from "./Asagohan";
 
 export default interface User {
+  id: string;
   name: string;
   accountID: string;
   userIconPath: string;

@@ -3,7 +3,6 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "./components/Header";
-import { useState } from "react";
 import useTodayAsagohans from "@/app/hooks/useTodayAsagohans";
 import { Avatar, colors } from "@mui/material";
 import * as React from 'react';
@@ -14,11 +13,19 @@ import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Asagohan from "./types/Asagohan";
+import useUserAuth from "./hooks/useUserAuth";
 
 export default function Home() {
-  const [userID] = useState("b2113406-aaaf-43bc-a32c-a5cc003506d7");
-  const { asagohans, todayAsagohansFetching, onClickLike } = useTodayAsagohans(userID);
-  console.log(asagohans, todayAsagohansFetching);
+  const { userID, authLoading } = useUserAuth();
+  const { asagohans, todayAsagohansFetching, onClickLike } = useTodayAsagohans(userID || "");
+
+  if (authLoading || todayAsagohansFetching) {
+    return <main>Loading...</main>;
+  }
+  if (!asagohans || asagohans.length === 0) {
+    return <main>本日の朝ごはんはまだ投稿されていません</main>;
+  }
+
 
   // const [flag, setFlag] = useState(false); // 初期値はfalse
   // console.log(flag);
