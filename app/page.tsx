@@ -78,6 +78,15 @@ export default function Home() {
           </h1>
         </div>
         <div className={styles.next}>
+          <Link href={"/camera"}>
+            <Image
+              className={styles.camera}
+              src="投稿カメラ.svg"
+              alt="投稿カメラ画像"
+              width={50}
+              height={50}
+            />
+          </Link>
           <Link href={"/ranking"}>
             <Image
               className={styles.ranking}
