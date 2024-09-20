@@ -15,6 +15,7 @@ import Button from "@mui/material/Button";
 import Asagohan from "./types/Asagohan";
 import useUserAuth from "./hooks/useUserAuth";
 import { useState } from "react";
+import Loading from "./components/Loading";
 
 export default function Home() {
   const { userID, authLoading } = useUserAuth();
@@ -27,7 +28,7 @@ export default function Home() {
   const [comment, setComment] = React.useState("");
 
   if (authLoading || todayAsagohansFetching) {
-    return <main>Loading...</main>;
+    return <Loading />
   }
   if (!asagohans || asagohans.length === 0) {
     return <main>本日の朝ごはんはまだ投稿されていません</main>;

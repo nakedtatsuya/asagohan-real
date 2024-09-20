@@ -14,6 +14,7 @@ import useUserProfile from "@/app/hooks/useUserProfile";
 import { Button, IconButton, Modal, TextField } from "@mui/material";
 import Box from "@mui/material/Box";
 import useUserAuth from "@/app/hooks/useUserAuth";
+import Loading from "@/app/components/Loading";
 
 // SmallAvatar の定義
 const SmallAvatar = (
@@ -71,7 +72,7 @@ export default function Home({ params }: { params: { accountID: string } }) {
   };
 
   if (authLoading || todayUserProfileFetching) {
-    return <main>Loading...</main>;
+    return <Loading />
   }
   if (!userProfile) {
     return <main>Not Found</main>;
