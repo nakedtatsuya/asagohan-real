@@ -3,7 +3,7 @@ import { useState } from "react";
 import supabase from "../supabase";
 
 const usePostUser = () => {
-  const [sending, setSending] = useState(true);
+  const [sending, setSending] = useState(false);
 
   const postUser = async (
     userID: string,
@@ -26,6 +26,7 @@ const usePostUser = () => {
 
     const removeHyphen = (id: string) => id.replace(/-/g, "");
 
+    console.log(`postしろ！${removeHyphen(userID)}.png`);
     const { error } = await supabase.storage
       .from("user_icons")
       .upload(`${removeHyphen(userID)}.png`, userIcon);

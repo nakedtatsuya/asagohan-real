@@ -5,6 +5,7 @@ import Avatar from "@mui/material/Avatar";
 import { Badge } from "@mui/material";
 import supabase from "../supabase";
 import usePostUser from "../hooks/usePostUser";
+import Loading from "../components/Loading";
 
 interface SmallAvatarProps {
   alt: string;
@@ -30,11 +31,7 @@ export default function Home() {
   const [selectedImageFile, setSelectedImageFile] = useState<File | null>(null);
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
-  const { postUser } = usePostUser();
-
-  if (loading) {
-    return <main>登録中...</main>;
-  }
+  const { postUser, userSending } = usePostUser();
 
   useEffect(() => {
     if (username && email && password && confirmPassword && selectedImage) {
@@ -95,9 +92,12 @@ export default function Home() {
       console.log(userID);
 
       if (userID && selectedImageFile) {
-        postUser(userID, username, accountID, selectedImageFile);
+        await postUser(userID, username, accountID, selectedImageFile);
         setLoading(false);
-        setSuccessMessage("登録が完了しました！");
+        console.log("postUser");
+        setTimeout(() => {
+          window.location.href = "/home";
+        }, 1000);
       }
     } catch (error) {
       setErrorMessage(`登録中にエラーが発生しました: ${error}`);
@@ -111,6 +111,10 @@ export default function Home() {
     setSelectedImageFile(file);
     setSelectedImage(URL.createObjectURL(file));
   };
+
+  if (loading || userSending) {
+    return <Loading />;
+  }
 
   return (
     <div className={styles.container}>
