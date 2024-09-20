@@ -7,7 +7,6 @@ import { Button } from "@mui/material";
 export default function Home() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [isButtonEnabled, setIsButtonEnabled] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [successMessage, setSuccessMessage] = useState<string>("");
 
@@ -80,7 +79,6 @@ export default function Home() {
               fontFamily: "var(--font)",
               marginTop: "40px",
             }}
-            disabled={!isButtonEnabled}
           >
             ログイン
           </Button>

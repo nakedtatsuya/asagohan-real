@@ -25,41 +25,20 @@ export default function Home() {
   const [selectedAsagohan, setSelectedAsagohan] = useState<Asagohan | null>(
     null
   );
-  const [comment, setComment] = React.useState("");
 
   if (authLoading || todayAsagohansFetching) {
-    return <Loading />
+    return <Loading />;
   }
   if (!asagohans || asagohans.length === 0) {
     return <main>本日の朝ごはんはまだ投稿されていません</main>;
   }
-
-  // const [flag, setFlag] = useState(false); // 初期値はfalse
-  // console.log(flag);
 
   const handleClick = (asagohan: Asagohan) => {
     console.log("クリックされました");
     onClickLike(asagohan);
   };
 
-  // const [open, setOpen] = React.useState(false);
-
   const drawerIsOpen = selectedAsagohan !== null;
-  console.log(drawerIsOpen);
-
-  console.log(selectedAsagohan);
-
-  const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setComment(event.target.value);
-  };
-
-  const handleCommentSubmit = () => {
-    if (comment.trim()) {
-      // コメントの処理（例えば、APIに送信など）
-      console.log(comment);
-      setComment(""); // 入力欄をクリア
-    }
-  };
 
   return (
     <div className={styles.page}>
@@ -116,9 +95,9 @@ export default function Home() {
         >
           <div className={styles.drawer} role="presentation">
             {selectedAsagohan ? (
-              selectedAsagohan.comments.map((comment) => {
+              selectedAsagohan.comments.map((comment, index) => {
                 return (
-                  <div className={styles.usercomment}>
+                  <div key={index} className={styles.usercomment}>
                     <div className={styles.useravatar}>
                       <Avatar
                         alt="コメント者イラスト"
