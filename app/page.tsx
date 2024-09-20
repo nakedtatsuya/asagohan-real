@@ -3,7 +3,6 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "./components/Header";
-import { useState } from "react";
 import useTodayAsagohans from "@/app/hooks/useTodayAsagohans";
 import { Avatar } from "@mui/material";
 import useUserAuth from "./hooks/useUserAuth";
